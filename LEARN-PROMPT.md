@@ -30,19 +30,27 @@ Do this:
    battle-tested lessons (real bugs, boundary behavior, toolchain traps) that
    cookbook lacks: `~/.claude/plugins/` (ECC and other plugins' skills/rules),
    `~/.claude/skills/`, `~/.gemini/config/skills/`, `~/gstack/` skills.
-   Only import what cites a concrete failure; rewrite in cookbook's
-   scar→fix→check format, credit the source collection in one line. Skip
-   anything that's a style guide or restates official docs.
+   Only import lessons whose SOURCE cites a concrete failure — style-guide
+   filler stays behind even if the collection is reputable. Rewrite in
+   cookbook's scar→fix→check format, credit the source collection in one line.
+   Skip anything that restates official docs.
 
 3. **Create or update** `cookbook/<lang-or-topic>/SKILL.md`:
    - New topic → new folder with SKILL.md following AGENTS.md format.
    - Existing → merge new lessons in, delete anything now stale, keep ≤100 lines.
    - Polyglot lesson → `cookbook/cross/SKILL.md`.
+   - Stamp each lesson with the toolchain it was verified against where
+     version-sensitive (e.g. `verified: rustc 1.xx / gradle 8.x`). A lesson
+     without a version claim is assumed current.
 
-4. **Commit.** One commit per update:
+4. **Ledger.** Append one line per accepted or rejected lesson to
+   `LEDGER.md`: `YYYY-MM-DD | <topic> | accept|reject | lesson | source`.
+   Check the ledger before importing — a lesson already there is a duplicate.
+
+5. **Commit.** One commit per update:
    `learn(<topic>): <one-line summary of lessons added>`
 
-5. **Report back** in ≤5 lines: what was added where, what was rejected as
+6. **Report back** in ≤5 lines: what was added where, what was rejected as
    duplicate/too-specific, current line count of each touched file.
 
 Rules you must not break: no lesson without a concrete bug behind it; nothing a
