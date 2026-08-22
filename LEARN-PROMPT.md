@@ -26,6 +26,14 @@ Do this:
    If a lesson exists there but is wrong/incomplete for modern toolchains,
    note it — don't copy it.
 
+2b. **Harvest from installed skill collections.** Mine these for
+   battle-tested lessons (real bugs, boundary behavior, toolchain traps) that
+   cookbook lacks: `~/.claude/plugins/` (ECC and other plugins' skills/rules),
+   `~/.claude/skills/`, `~/.gemini/config/skills/`, `~/gstack/` skills.
+   Only import what cites a concrete failure; rewrite in cookbook's
+   scar→fix→check format, credit the source collection in one line. Skip
+   anything that's a style guide or restates official docs.
+
 3. **Create or update** `cookbook/<lang-or-topic>/SKILL.md`:
    - New topic → new folder with SKILL.md following AGENTS.md format.
    - Existing → merge new lessons in, delete anything now stale, keep ≤100 lines.
