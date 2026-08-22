@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kotlin · settings — the morgue — the morgue</title>
+<meta name="description" content="Android settings wiring: dead preferences, toast-only destructive handlers, retrofit JVM signature clashes.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/kotlin.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>kotlin · settings</strong></span>
+  <span>cases on file: <strong>3</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Seventeen toggles did nothing.</h1>
+  <p class="lede">An audit of a production IME settings screen: preferences that render but are never read, buttons that report success and change nothing.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — kotlin ward</h2>
+
+<div class="feed">
+<article class="case">
+  <header><span class="no">CASE №007</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
+  <h3>A settings screen is not a settings system</h3>
+  <dl>
+    <dt>Scar</dt><dd>Bug: ~20 preferences rendered fine in the UI, but the keyboard consumer read
+only 3 of them at startup. Seventeen toggles did literally nothing — sliders,
+switches, all silently ignored. Nothing crashed; users just could</dd>
+    <dt>Fix</dt><dd>**Fix:** for every `app:key` in preferences XML, grep the consumer for its
+read site. Any key with zero non-UI readers is a dead setting — wire it at
+one entry point (`onStartInputView` for IMEs, `onResume` for activities) or
+delete it.</dd>
+    <dt>Check</dt><dd>**Check:** script it: extract keys from XML, grep each against source minus
+the settings package. Zero hits = fail.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №008</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
+  <h3>Toast-only handlers</h3>
+  <dl>
+    <dt>Scar</dt><dd>Bug: &quot;Clear clipboard history&quot; showed a success toast and deleted nothing —
+the click listener ended at `Toast.makeText(...)`. User believed data was
+gone; it wasn&#x27;t. Worst kind of silent failure because it reports succe</dd>
+    <dt>Fix</dt><dd>**Fix:** a destructive-action handler must perform the mutation (or visibly
+fail). If the handler contains no state change and no error path, it&#x27;s a lie.</dd>
+    <dt>Check</dt><dd>**Check:** grep listeners for actions named delete/clear/reset/import; each
+body must touch storage or propagate an error.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №009</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
+  <h3>Duplicate setters = JVM signature clash</h3>
+  <dl>
+    <dt>Scar</dt><dd>Adding a manual `setLearningEnabled()` beside a `var learningEnabled`
+property compiles in isolation but clashes at the platform-signature level
+(`get/set` pairs generated for properties). Bit during settings rewiring;
+c</dd>
+  </dl>
+</article>
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/kotlin/SKILL.md" style="color:var(--blood-deep)">→ raw markdown (feed your agent directly)</a></p>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

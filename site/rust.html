@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rust · boundaries — the morgue — the morgue</title>
+<meta name="description" content="Rust boundary lessons: JNI panic handling, poisoned mutex recovery, JSON composite keys, cross-compile artifact discipline, stub honesty.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/rust.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>rust · boundaries</strong></span>
+  <span>cases on file: <strong>6</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Six bodies from one Android IME.</h1>
+  <p class="lede">A Rust engine behind JNI calls on a production keyboard. Every crash here shipped to a device before it was filed.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — rust ward</h2>
+
+<div class="feed">
+<article class="case">
+  <header><span class="no">CASE №001</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>panic=abort + FFI = host process death</h3>
+  <dl>
+    <dt>Scar</dt><dd>With `panic = &quot;abort&quot;` in the release profile, any panic inside a JNI call kills
+the entire host process — the IME crash-loops on device. `.unwrap()` on a mutex
+lock is the classic trigger (poisoned lock → unwrap panics </dd>
+    <dt>Fix</dt><dd>**Fix:** never `.unwrap()` on locks or FFI paths. Recover from poison:</dd>
+  </dl>
+  <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">fn engine() -&gt; MutexGuard&lt;&#x27;static, Predictor&gt; {
+    match ENGINE.get_or_init(|| Mutex::new(Predictor::new())).lock() {
+        Ok(g) =&gt; g,
+        Err(poisoned) =&gt; poisoned.into_inner(), // data still valid; recover
+    }
+}</pre>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №002</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>Global state: OnceLock&lt;Mutex&lt;T&gt;&gt;, init-once</h3>
+  <dl>
+    <dt>Scar</dt><dd>Engine state as `static ENGINE: OnceLock&lt;Mutex&lt;T&gt;&gt;`. Init once from the host,
+reuse across calls. OnceLock can&#x27;t be cleared — &quot;destroy&quot; just drops on process
+exit; don&#x27;t pretend otherwise in a destroy() function.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №003</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>Composite keys aren&#x27;t JSON map keys</h3>
+  <dl>
+    <dt>Scar</dt><dd>`HashMap&lt;(String, String), V&gt;` won&#x27;t serialize to JSON (&quot;key must be a string&quot;).
+Flatten to row structs:</dd>
+  </dl>
+  <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">#[derive(Serialize, Deserialize)]
+struct Row { k1: String, k2: String, v: u32 }</pre>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №004</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>Cross-compile artifact discipline</h3>
+  <dl>
+    <dt>Scar</dt><dd>- Targets configured in `.cargo/config.toml`, not ad-hoc env vars.
+- Artifact name ≠ crate name: `libakashboard_engine.so` must be copied as
+  whatever the host&#x27;s `System.loadLibrary(&quot;predictor&quot;)` expects — here
+  `jniLi</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №005</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>Stubs that lie</h3>
+  <dl>
+    <dt>Scar</dt><dd>A native function returning hardcoded success (`nativeSaveModel → true`) makes
+the caller believe persistence works. Data loss follows. Stub = return failure /
+log loudly, or don&#x27;t ship the binding.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №006</span><span>rust · boundaries</span><span class="stamp fixed">fixed</span></header>
+  <h3>Consistency tests beat per-function ceremony</h3>
+  <dl>
+    <dt>Scar</dt><dd>For optimized algorithms (early-exit edit distance), test equivalence against
+the naive version across representative inputs — catches optimization bugs that
+per-function unit tests miss. Property-style check, no framewo</dd>
+  </dl>
+</article>
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/rust/SKILL.md" style="color:var(--blood-deep)">→ raw markdown (feed your agent directly)</a></p>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

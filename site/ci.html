@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ci · codegen traps — the morgue</title>
+<meta name="description" content="CI codegen traps: smuggled toolchain pins, lint gates on generated output, c2rust CLI argument traps, artifact-printing asserts.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/ci.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>ci · codegen traps</strong></span>
+  <span>cases on file: <strong>4</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Codegen tools lie in four ways.</h1>
+  <p class="lede">Four CI runs of a c2rust transpilation pipeline. Toolchain pins smuggled into output, lint gates failing by design, silent arg rejection.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — ci ward</h2>
+
+<div class="feed">
+<article class="case">
+  <header><span class="no">CASE №012</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
+  <h3>Codegen tools smuggle toolchain pins into their output (verified: c2rust 0.20.0)</h3>
+  <dl>
+    <dt>Scar</dt><dd>`c2rust transpile --emit-build-files` writes `rust-toolchain.toml` into the
+generated crate, pinning the nightly the tool was BUILT on
+(`nightly-2022-08-08`). Host-side `cargo clippy` then fails with
+`&#x27;cargo-clippy&#x27; is n</dd>
+    <dt>Fix</dt><dd>**Fix:** detect BOTH `rust-toolchain` and `rust-toolchain.toml`, at crate root
+and one level down; parse channel (bare line OR `[toolchain] channel = &quot;...&quot;`),
+run `rustup toolchain install &lt;ch&gt; --profile minimal --component clippy`
+(idempotent via `rustup tool</dd>
+  </dl>
+  <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">fn stderr_missing_toolchain(stderr: &amp;str) -&gt; Option&lt;String&gt; {
+    stderr.lines().find_map(|l| {
+        let i = l.find(&quot;not installed for the toolchain &#x27;&quot;)?;
+        let rest = &amp;l[i + &quot;not installed for the toolchain &#x27;&quot;.len()..];
+        Some(rest[..rest.find(&#x27;&#x27;)?].to_string())
+    })
+}</pre>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №013</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
+  <h3>Never apply your own lint gate to generated output</h3>
+  <dl>
+    <dt>Scar</dt><dd>Running `cargo clippy -- -D warnings` on machine-transpiled code fails ~always
+— mechanical output warns by design. The gate&#x27;s job is compile-success;
+warnings are EVIDENCE (count them into the report), not failures.</dd>
+    <dt>Fix</dt><dd>**Fix:** `cargo clippy` plain for generated code; `-D warnings` stays for
+first-party source only. Capture warning count + first error lines as report
+data.</dd>
+    <dt>Check</dt><dd>**Check:** pipeline test where generated crate compiles-with-warnings is GREEN
+with warnings &gt; 0 recorded.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №014</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
+  <h3>Codegen CLIs reject intuitive args silently (verified: c2rust 0.20.0)</h3>
+  <dl>
+    <dt>Scar</dt><dd>`c2rust transpile &lt;dir&gt;` doesn&#x27;t parse the directory — it emits `Could not
+parse input file. Skipping /work/src; is it well-formed C?` then later `Can&#x27;t
+emit build files after incremental transpiler run; skipped.` Two so</dd>
+    <dt>Fix</dt><dd>**Fix:** enumerate entry files yourself, pass explicitly, sort for
+determinism. Unit-test the arg-list builder against a temp dir (headers
+excluded, dotfiles excluded, flat scan).</dd>
+    <dt>Check</dt><dd>**Check:** test asserting arg vector equals expected explicit file list.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №015</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
+  <h3>Assert-on-artifact steps must print the artifact</h3>
+  <dl>
+    <dt>Scar</dt><dd>A CI step doing `grep -q &quot;✅ compiles&quot; &quot;$R&quot;` hides WHY when it fails — the
+evidence sat inside REPORT.md three runs in a row while we guessed.</dd>
+    <dt>Fix</dt><dd>**Fix:**</dd>
+  </dl>
+  <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">grep -q &quot;✅ compiles&quot; &quot;$R&quot; || { cat &quot;$R&quot;; exit 1; }</pre>
+</article>
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/ci/SKILL.md" style="color:var(--blood-deep)">→ raw markdown (feed your agent directly)</a></p>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

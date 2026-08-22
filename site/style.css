@@ -1,0 +1,214 @@
+/* THE MORGUE — cookbook.dev design system
+   Paper forensic-file aesthetic. Light canvas in a dark-mode world. */
+
+:root {
+  --paper: #f2efe9;
+  --paper-dark: #e8e4da;
+  --ink: #1a1815;
+  --ink-faint: #6b675e;
+  --blood: #b3402a;
+  --blood-deep: #8a2d1c;
+  --stamp-green: #3d6b35;
+  --frame: #1a1815;
+  --hairline: #c9c4b8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 31px, rgba(26,24,21,0.025) 32px);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.65;
+  border: 10px solid var(--frame);
+  min-height: 100vh;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+/* ---------- masthead ---------- */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 2rem 0 1.25rem;
+  border-bottom: 3px double var(--ink);
+}
+.wordmark {
+  font-family: "Special Elite", "Courier New", monospace;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.wordmark a { color: var(--ink); text-decoration: none; }
+.wordmark .red { color: var(--blood); }
+nav { font-size: .82rem; text-transform: uppercase; letter-spacing: .12em; }
+nav a {
+  color: var(--ink); text-decoration: none;
+  margin-left: 1.4rem; border-bottom: 1px solid transparent;
+}
+nav a:hover { border-bottom-color: var(--blood); color: var(--blood-deep); }
+
+/* ---------- ticker ---------- */
+.ticker {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: .75rem 2rem;
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: .78rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+.ticker strong { color: var(--blood); }
+
+/* ---------- hero ---------- */
+.hero { padding: clamp(2.5rem, 7vw, 5rem) 0 2rem; max-width: 62ch; }
+.hero h1 {
+  font-family: "Special Elite", "Courier New", monospace;
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+  line-height: 1.15; letter-spacing: -.01em;
+}
+.hero h1 .strike {
+  position: relative; white-space: nowrap;
+}
+.hero h1 .strike::after {
+  content: ""; position: absolute; left: -2%; right: -2%; top: 54%;
+  height: .09em; background: var(--blood); transform: rotate(-1.2deg);
+}
+.hero p.lede { margin-top: 1.4rem; font-size: 1.02rem; color: var(--ink-faint); max-width: 56ch; }
+.hero p.lede strong { color: var(--ink); }
+
+/* evidence-bag install block */
+.evidence {
+  margin: 2.2rem 0 0;
+  border: 1px solid var(--ink);
+  background: #fbfaf6;
+  max-width: 480px;
+}
+.evidence header {
+  font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+  padding: .45rem .9rem; border-bottom: 1px dashed var(--hairline);
+  color: var(--ink-faint); display:flex; justify-content:space-between;
+}
+.evidence pre {
+  padding: .9rem; overflow-x: auto; font-size: .85rem; white-space: pre;
+}
+.evidence .copy {
+  cursor: pointer; user-select: none; border: none; background: none;
+  font: inherit; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color: var(--blood);
+}
+.evidence .copy:hover { text-decoration: underline; }
+
+/* ---------- section rules ---------- */
+.section-rule {
+  display:flex; align-items:center; gap:1rem;
+  margin: 3.5rem 0 1.5rem;
+  font-family:"Special Elite",monospace; text-transform:uppercase;
+  letter-spacing:.14em; font-size: .95rem;
+}
+.section-rule::before, .section-rule::after {
+  content:""; flex:1; height:1px; background:var(--hairline);
+}
+.section-rule .count { color: var(--blood); }
+
+/* ---------- scar feed (Verge-style rail) ---------- */
+.feed { position: relative; padding-left: 1.6rem; }
+.feed::before {
+  content:""; position:absolute; left:.35rem; top:.4rem; bottom:.4rem;
+  border-left: 1px dashed var(--ink-faint);
+}
+.case {
+  position: relative;
+  margin-bottom: 1.4rem;
+  border: 1px solid var(--ink);
+  background: #fbfaf6;
+  box-shadow: 3px 3px 0 rgba(26,24,21,.12);
+}
+.case:nth-child(odd)  { transform: rotate(-.35deg); }
+.case:nth-child(even) { transform: rotate(.3deg); }
+.case:hover { transform: rotate(0deg); box-shadow: 4px 4px 0 rgba(179,64,42,.25); }
+.case::before { /* punch holes */
+  content:"● ● ●"; position:absolute; left:-1.55rem; top:1rem;
+  font-size:.5rem; letter-spacing:.45em; color:var(--ink-faint);
+  writing-mode: vertical-rl;
+}
+.case header {
+  display:flex; justify-content:space-between; align-items:center; gap:.8rem;
+  padding: .55rem .95rem; border-bottom: 1px solid var(--ink);
+  background: var(--paper-dark);
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .1em;
+}
+.case header .no { color: var(--blood); font-weight:600;}
+.case h3 {
+  font-family:"Special Elite",monospace; font-size:1.05rem;
+  padding: .8rem .95rem 0; letter-spacing:.01em;
+}
+.case dl { padding: .4rem .95rem 1rem; font-size:.84rem; }
+.case dt {
+  float:left; width:5.2rem; clear:left; padding-top:.15em;
+  color: var(--ink-faint); text-transform:uppercase; font-size:.68rem;
+  letter-spacing:.14em;
+}
+.case dd { margin-left: 5.6rem; }
+/* redaction */
+.redact {
+  position:relative; display:inline-block; cursor:pointer; color:transparent;
+  background: var(--ink); padding: 0 .3em; user-select:none;
+  transition: none;
+}
+.redact.open, .redact:active {
+  background: transparent; color: var(--blood-deep);
+}
+.redact::after {
+  content:"[tap to peel]"; position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--paper); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+}
+.redact.open::after, .redact:active::after { content:none; }
+
+/* stamps */
+.stamp {
+  display:inline-block; padding:.15rem .55rem;
+  border: 2.5px solid currentColor; border-radius:3px;
+  font-family:"Special Elite",monospace; text-transform:uppercase;
+  letter-spacing:.16em; font-size:.72rem; transform:rotate(-6deg);
+  mix-blend-mode:multiply; opacity:.92;
+}
+.stamp.dead  { color: var(--blood); }
+.stamp.fixed { color: var(--stamp-green); }
+
+/* toe-tag footer */
+footer.toetag {
+  margin: 4rem 0 2.5rem; display:flex; justify-content:center;
+}
+.tag {
+  position:relative; border:2px solid var(--ink); background:#fbfaf6;
+  padding: 1.1rem 2.2rem 1.1rem 3.4rem; text-align:left;
+  clip-path: polygon(0 50%, 7% 0, 100% 0, 100% 100%, 7% 100%);
+  font-size:.8rem; line-height:1.7;
+}
+.tag::before {
+  content:""; position:absolute; left:1.1rem; top:50%;
+  width:.65rem;height:.65rem;border:2px solid var(--ink);border-radius:50%;
+  transform:translateY(-50%); background:var(--paper);
+}
+.tag a { color: var(--blood-deep); }
+
+/* topic chips */
+.topics { display:flex; flex-wrap:wrap; gap:.7rem; margin-top:2.5rem; }
+.topic-card {
+  flex:1 1 240px; border:1px solid var(--ink); background:#fbfaf6;
+  padding:1.1rem 1.2rem; text-decoration:none; color:var(--ink);
+  box-shadow:3px 3px 0 rgba(26,24,21,.12);
+}
+.topic-card:hover { box-shadow:4px 4px 0 rgba(179,64,42,.3); }
+.topic-card h3 { font-family:"Special Elite",monospace; font-size:1rem; }
+.topic-card p { font-size:.78rem; color:var(--ink-faint); margin-top:.4rem; }
+.topic-card .n { color:var(--blood); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;}
+
+@media print { .ticker, nav, .copy { display:none; } }

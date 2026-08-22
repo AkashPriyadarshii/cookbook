@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cookbook — the morgue for dead bugs</title>
+<meta name="description" content="Battle-tested coding lessons from real AI-agent sessions. Rust FFI/JNI crashes, Android silent-failure UI, multi-agent git, CI codegen traps. Every lesson has a scar, a fix, and a check. For Claude Code, Cursor, Copilot, any AI coding agent.">
+<meta name="keywords" content="rust ffi jni panic, android settings wiring, multi-agent git, ci codegen traps, c2rust, AI agent skills, claude code skills, cursor rules, coding lessons, debugging lessons, silent failure, concurrency footguns">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/">
+<meta property="og:title" content="cookbook — the morgue for dead bugs">
+<meta property="og:description" content="15 production scars. Each one broke something real. Scar → fix → check. Free, plain markdown, any AI agent.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akashpriyadarshii.github.io/cookbook/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"cookbook","description":"Battle-tested coding lessons from real AI-agent sessions, formatted as scar→fix→check skill files for AI coding agents.","codeRepository":"https://github.com/AkashPriyadarshii/cookbook","license":"https://opensource.org/licenses/MIT","programmingLanguage":["Rust","Kotlin"],"keywords":"AI agent skills, rust FFI, JNI, android, git coordination"}
+</script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>facility status: <strong>accepting bodies</strong></span>
+  <span>bodies processed: <strong id="bodycount">15</strong></span>
+  <span>recidivism rate: <strong>0%</strong></span>
+  <span>est. 2026</span>
+</div>
+
+<main>
+<section class="hero">
+  <h1>Your bug is not special.<br>It already died <span class="strike">here</span>.</h1>
+  <p class="lede">Every lesson in this morgue killed a real build before we
+  learned its name. Each case file follows one format:
+  <strong>scar → fix → check</strong>. No idioms, no style-guide sermons,
+  nothing official docs already teach. Plain markdown. Free. Any AI agent reads it.</p>
+
+  <div class="evidence">
+    <header><span>evidence bag №001</span><button class="copy" data-copy="git clone https://github.com/AkashPriyadarshii/cookbook.git">copy</button></header>
+    <pre>git clone https://github.com/AkashPriyadarshii/cookbook.git</pre>
+  </div>
+</section>
+
+<h2 class="section-rule" id="cases">recent intakes <span class="count">— 15 on file</span></h2>
+
+<div class="feed">
+
+<article class="case">
+  <header><span class="no">CASE №004</span><span>rust · android-ime</span><span class="stamp fixed">fixed</span></header>
+  <h3>Host process death by unwrap</h3>
+  <dl>
+    <dt>Symptom</dt><dd>IME crash-loops on device. No stack trace survives.</dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">panic="abort" + .unwrap() on poisoned lock in JNI path</span></dd>
+    <dt>Fix</dt><dd>Three lines — recover via poisoned.into_inner().</dd>
+    <dt>Check</dt><dd>grep unwrap() in every extern fn before release.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №009</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
+  <h3>The button that lied</h3>
+  <dl>
+    <dt>Symptom</dt><dd>User believes clipboard history deleted. It wasn't.</dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">click listener ends at Toast.makeText() — success toast, zero mutation</span></dd>
+    <dt>Fix</dt><dd>Destructive handler must touch storage or propagate error.</dd>
+    <dt>Check</dt><dd>Grep delete/clear/reset listeners; each body must mutate or fail loudly.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №012</span><span>cross · multi-agent</span><span class="stamp fixed">fixed</span></header>
+  <h3>Commit theft between agents</h3>
+  <dl>
+    <dt>Symptom</dt><dd>Agent B's commit contains agent A's uncommitted work.</dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">git checkout in a shared dir while another agent edits mid-flight</span></dd>
+    <dt>Fix</dt><dd>One worktree per agent; never `git add -A` outside territory.</dd>
+    <dt>Check</dt><dd>`git show their-tip --stat` after every push — none of your files appear.</dd>
+  </dl>
+</article>
+
+</div>
+
+<p style="margin-top:1.5rem"><a href="rust.html" style="color:var(--blood-deep)">→ read all 15 case files</a></p>
+
+<h2 class="section-rule">wards of the facility</h2>
+<div class="topics">
+  <a class="topic-card" href="rust.html"><span class="n">6 cases</span><h3>rust/ boundaries</h3><p>FFI panics, poisoned locks, JSON composite keys, cross-compile artifacts, lying stubs.</p></a>
+  <a class="topic-card" href="kotlin.html"><span class="n">3 cases</span><h3>kotlin/ settings wiring</h3><p>Dead preferences, toast-only handlers, retrofit signature clashes.</p></a>
+  <a class="topic-card" href="cross.html"><span class="n">2 cases</span><h3>cross/ coordination</h3><p>Multi-agent worktrees, handoff logs.</p></a>
+  <a class="topic-card" href="ci.html"><span class="n">4 cases</span><h3>ci/ codegen traps</h3><p>Toolchain pins smuggled by codegen, lint gates on generated output, silent CLI arg rejects.</p></a>
+  <a class="topic-card" href="learn.html"><span class="n">teach yours</span><h3>/learn — the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
+</div>
+
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+  });
+});
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

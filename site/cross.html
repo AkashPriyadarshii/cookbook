@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cross · coordination — the morgue — the morgue</title>
+<meta name="description" content="Multi-agent git coordination: worktree isolation protocol, handoff-log discipline for parallel agents.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/cross.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>cross · coordination</strong></span>
+  <span>cases on file: <strong>2</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Two agents, one checkout, stolen work.</h1>
+  <p class="lede">Multi-agent git coordination from a repo run by two AI agents on separate branches simultaneously.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — cross ward</h2>
+
+<div class="feed">
+<article class="case">
+  <header><span class="no">CASE №010</span><span>cross · coordination</span><span class="stamp fixed">fixed</span></header>
+  <h3>A checkout in a shared dir steals uncommitted edits</h3>
+  <dl>
+    <dt>Scar</dt><dd>Bug: agent B ran `git checkout &lt;branch-B&gt;` in the directory where agent A was
+mid-edit. A&#x27;s uncommitted changes rode along and were swept into B&#x27;s next
+commit. Recovery meant diffing B&#x27;s tip against intent and porting fi</dd>
+    <dt>Fix</dt><dd>**Fix:** one worktree per agent, created up front:</dd>
+  </dl>
+  <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">git worktree add ../&lt;repo&gt;-&lt;topic&gt; &lt;branch&gt;</pre>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №011</span><span>cross · coordination</span><span class="stamp fixed">fixed</span></header>
+  <h3>Handoff log beats memory</h3>
+  <dl>
+    <dt>Scar</dt><dd>Parallel agents don&#x27;t see each other&#x27;s sessions. A root-level HANDOFF.md with
+a mandatory append-before-exit entry (did / in-flight / don&#x27;t-touch), newest
+first, plus a territory table in AGENTS.md (&quot;read FIRST&quot;), preven</dd>
+  </dl>
+</article>
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/cross/SKILL.md" style="color:var(--blood-deep)">→ raw markdown (feed your agent directly)</a></p>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

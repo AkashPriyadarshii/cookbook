@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>teach your agent — the morgue</title>
+<meta name="description" content="Paste this prompt into any AI coding agent after a project session. It extracts lessons that pass the bar (real bug, not in official docs, generalizes), harvests installed skill collections, and files new cases in your cookbook.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/learn.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>form: <strong>intake request · form LEARN-1</strong></span>
+  <span>filed by: your agent, after any session</span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Make it file its own cases.</h1>
+  <p class="lede">Copy the coroner's intake form below. Paste it into Claude Code,
+  Cursor, Copilot, Aider — anything that reads text — after a real work session,
+  with two paths filled in. It analyzes source + git history, keeps only lessons
+  that pass the bar (<strong>real bug · not in official docs · generalizes</strong>),
+  harvests battle-tested material from installed skill collections, logs every
+  accept/reject in the ledger, and commits.</p>
+
+  <div class="evidence" style="max-width:100%">
+    <header><span>intake form · copy whole block</span><button class="copy" data-copy-target="prompttext">copy</button></header>
+    <pre id="prompttext" style="max-height:28rem;overflow-y:auto;white-space:pre-wrap;font-size:.78rem;line-height:1.6">You are updating my cookbook at &lt;path-to&gt;/cookbook/ (read its AGENTS.md first — contribution rules are binding).
+
+Project: &lt;project path&gt;
+Session transcripts (if available): &lt;transcript dir or "none"&gt;
+
+Do this:
+
+1. **Analyze.** Read the project's source files, git history (`git log -20`), and session transcripts if provided. Identify every lesson that satisfies ALL of:
+   - It cost debugging time, caused a bug, or forced a rewrite this session.
+   - It is NOT covered in official language/framework docs or common style guides.
+   - It generalizes beyond this one repo (boundary behavior, silent failure, toolchain trap, concurrency footgun, serialization gotcha).
+
+2. **Dedupe against existing knowledge.** Check `cookbook/&lt;lang&gt;/SKILL.md` for existing coverage. Also check these known skill collections before claiming novelty: `~/.claude/skills/`, `~/.claude/rules/ecc/`, `~/.gemini/config/skills/`. If a lesson exists there but is wrong/incomplete for modern toolchains, note it — don't copy it.
+
+2b. **Harvest from installed skill collections.** Mine these for battle-tested lessons (real bugs, boundary behavior, toolchain traps) that cookbook lacks: `~/.claude/plugins/` (ECC and other plugins' skills/rules), `~/.claude/skills/`, `~/.gemini/config/skills/`, `~/gstack/` skills. Only import lessons whose SOURCE cites a concrete failure — style-guide filler stays behind even if the collection is reputable. Rewrite in cookbook's scar→fix→check format, credit the source collection in one line. Skip anything that restates official docs.
+
+3. **Create or update** `cookbook/&lt;lang-or-topic&gt;/SKILL.md`:
+   - New topic → new folder with SKILL.md following AGENTS.md format.
+   - Existing → merge new lessons in, delete anything now stale, keep ≤100 lines.
+   - Polyglot lesson → `cookbook/cross/SKILL.md`.
+   - Stamp each lesson with the toolchain it was verified against where version-sensitive (e.g. `verified: rustc 1.xx / gradle 8.x`). A lesson without a version claim is assumed current.
+
+4. **Ledger.** Append one line per accepted or rejected lesson to `LEDGER.md`: `YYYY-MM-DD | &lt;topic&gt; | accept|reject | lesson | source`. Check the ledger before importing — a lesson already there is a duplicate.
+
+5. **Commit.** One commit per update: `learn(&lt;topic&gt;): &lt;one-line summary of lessons added&gt;`
+
+6. **Report back** in ≤5 lines: what was added where, what was rejected as duplicate/too-specific, current line count of each touched file.
+
+Rules you must not break: no lesson without a concrete bug behind it; nothing a doc already teaches; nothing that only applies to this one project.</pre>
+  </div>
+
+  <p class="lede" style="margin-top:2rem"><strong>The bar, in plain words:</strong> if the lesson doesn't have
+  a scar — an actual bug that actually cost time — it belongs in a style guide,
+  not here. If official docs teach it, here it's noise. If it only applies to
+  one repo, it's a diary entry, not a lesson.</p>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var el=document.getElementById(b.getAttribute('data-copy-target'));
+    var t=el.textContent;
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+  });
+});
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

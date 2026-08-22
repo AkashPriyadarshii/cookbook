@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://akashpriyadarshii.github.io/cookbook/sitemap.xml
