@@ -14,6 +14,8 @@ cookbook/
 ├── LEARN-PROMPT.md   # Paste this after any project session → agent updates the cookbook
 ├── AGENTS.md         # Rules for contributing agents
 ├── rust/             # Rust boundary lessons (FFI, persistence, cross-compile)
+├── kotlin/           # Android settings wiring, silent-failure UI
+├── cross/            # Polyglot lessons (multi-agent git coordination)
 └── <lang-or-topic>/  # Created when a session teaches something real
 ```
 
