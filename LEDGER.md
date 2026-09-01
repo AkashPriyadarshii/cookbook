@@ -8,6 +8,9 @@ Format: `YYYY-MM-DD | <topic> | accept|reject | one-line lesson | source`
 
 ## Entries
 
+- 2026-09-01 | design | accept | anti-default gate must target reproduction as a whole, never a hue family; one gate pass ≠ audit pass | session (design-genius de-bias)
+- 2026-09-01 | design | accept | blessed exemplar becomes the new default; vary it across archetypes | session (design-genius de-bias)
+- 2026-09-01 | design | accept | web slop tells don't apply to physical/print; scope per medium | session (design-genius de-bias)
 - 2026-08-22 | rust | accept | panic=abort + FFI unwrap kills host process; recover from mutex poison | session (akashboard IME)
 - 2026-08-22 | rust | accept | composite keys aren't JSON map keys; flatten to rows + mandatory roundtrip test | session (akashboard IME)
 - 2026-08-22 | rust | accept | cross-compile artifact name ≠ loadLibrary name; verify with ls after copy | session (akashboard IME)
