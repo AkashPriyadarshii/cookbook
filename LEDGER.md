@@ -8,6 +8,11 @@ Format: `YYYY-MM-DD | <topic> | accept|reject | one-line lesson | source`
 
 ## Entries
 
+- 2026-09-01 | flutter | accept | drift TextColumn text collides with Table.text() DSL builder; name note/body/content | session (imperium life-tracker)
+- 2026-09-01 | flutter | accept | drift query builder exports isNull/isNotNull/Column/Table colliding with flutter_test and widgets; hide on import | session (imperium life-tracker)
+- 2026-09-01 | flutter | accept | legacy plugin hardcoded compileSdk 34 fails checkReleaseAarMetadata under AGP 36; bump to federated version | session (imperium life-tracker)
+- 2026-09-01 | flutter | accept | AGP 9 Built-in Kotlin breaks legacy KGP plugins during Java registration; migrate to Built-in Kotlin plugins | session (imperium life-tracker)
+
 - 2026-09-01 | design | accept | anti-default gate must target reproduction as a whole, never a hue family; one gate pass ≠ audit pass | session (design-genius de-bias)
 - 2026-09-01 | design | accept | blessed exemplar becomes the new default; vary it across archetypes | session (design-genius de-bias)
 - 2026-09-01 | design | accept | web slop tells don't apply to physical/print; scope per medium | session (design-genius de-bias)
