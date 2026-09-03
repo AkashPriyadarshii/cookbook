@@ -1,8 +1,8 @@
 # cookbook — Battle-Tested Coding Lessons from Real AI-Agent Sessions
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Lessons](https://img.shields.io/badge/lessons-14-red)
-![Topics](https://img.shields.io/badge/topics-rust%20%7C%20kotlin%20%7C%20cross-green)
+![Lessons](https://img.shields.io/badge/lessons-19-orange)
+![Topics](https://img.shields.io/badge/topics-rust%20%7C%20kotlin%20%7C%20ci%20%7C%20design%20%7C%20cross-green)
 
 Every lesson in this repo broke real production code first. No idioms, no
 style-guide platitudes, no rehashed official docs — only failure modes that cost
@@ -21,6 +21,8 @@ or reference it from your repo's AGENTS.md / CLAUDE.md / .cursorrules.
 | [Rust boundaries](rust/SKILL.md) | 6 | JNI panics kill the host process · poisoned-mutex unwraps · JSON composite-key deserialization failures · Android `.so` naming mismatch · persistence stubs that lie about saving data |
 | [Android/Kotlin settings wiring](kotlin/SKILL.md) | 3 | Settings screens where 17 of 20 preferences are dead — rendered but never read · destructive buttons that show success toasts and delete nothing · JVM signature clashes when retrofitting setters |
 | [Multi-agent git coordination](cross/SKILL.md) | 2 | Parallel agents on one checkout stealing each other's uncommitted edits · lost handoff context between sessions |
+| [CI codegen traps](ci/SKILL.md) | 4 | Codegen output pinning the builder's toolchain · lint gates that fail on generated code · codegen CLI arg traps · asserts that cat nothing on failure |
+| [Anti-default design gates](design/SKILL.md) | 4 | Banning a hue family instead of the whole reproduction · one gate passing scoped as the full audit · blessed exemplar re-converging · web tells judged on print surfaces |
 
 ## Why not just read the docs?
 
