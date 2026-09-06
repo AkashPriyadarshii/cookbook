@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>android · share &amp; IPC — the morgue</title>
+<meta name="description" content="Android share sheets, Intent IPC, and ContentProvider boundaries: Kotlin putExtra ArrayList serialization crashes, null clipData drops, path traversal, recursion traps.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/android.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="index.html#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="android.html" style="color:var(--blood)">android</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>android · share &amp; IPC</strong></span>
+  <span>cases on file: <strong>4</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">The share sheet drops silently or crashes at IPC.</h1>
+  <p class="lede">Lessons from building ExifDrop, an offline zero-UI share trampoline for Android. Intent overload traps, unpopulated clipData, and sandbox traversal.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — android ward</h2>
+
+<div class="feed">
+
+<article class="case">
+  <header><span class="no">CASE №024</span><span>android · ipc</span><span class="stamp fixed">fixed</span></header>
+  <h3>Kotlin putExtra marks ArrayList&lt;Uri&gt; as Serializable over IPC</h3>
+  <dl>
+    <dt>Scar</dt><dd>In ACTION_SEND_MULTIPLE, passing ArrayList&lt;Uri&gt; via intent.putExtra() resolves to putExtra(String, Serializable) in Kotlin. Android flags the extra Serializable. During Binder IPC, Java serialization fails on Uri with NotSerializableException.</dd>
+    <dt>Fix</dt><dd>Call intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris)) explicitly.</dd>
+    <dt>Check</dt><dd>grep -rn "putExtra.*EXTRA_STREAM.*ArrayList" app/ returns zero results.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №025</span><span>android · share-sheet</span><span class="stamp fixed">fixed</span></header>
+  <h3>ACTION_SEND_MULTIPLE fallback: clipData == null drops the batch</h3>
+  <dl>
+    <dt>Scar</dt><dd>Legacy sending apps frequently send ACTION_SEND_MULTIPLE with clipData == null. If the fallback calls getParcelableExtra(EXTRA_STREAM, Uri::class), it returns null because the extra is an ArrayList. The batch drops silently with zero feedback.</dd>
+    <dt>Fix</dt><dd>Branch on ACTION_SEND_MULTIPLE and call IntentCompat.getParcelableArrayListExtra(intent, EXTRA_STREAM, Uri::class.java).</dd>
+    <dt>Check</dt><dd>Test Intent(ACTION_SEND_MULTIPLE) with clipData = null and EXTRA_STREAM = arrayListOf(u1, u2).</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №026</span><span>android · sandbox-security</span><span class="stamp fixed">fixed</span></header>
+  <h3>Untrusted DISPLAY_NAME escapes sandbox via path traversal</h3>
+  <dl>
+    <dt>Scar</dt><dd>Querying OpenableColumns.DISPLAY_NAME from an external ContentProvider returns untrusted input. A hostile provider sends ../../shared_prefs/app.xml. File(cacheDir, name) allows directory traversal and private file overwrites.</dd>
+    <dt>Fix</dt><dd>Sanitize to a bare basename: filter to [a-zA-Z0-9 _-.], collapse .. to _, and trim leading/trailing dots.</dd>
+    <dt>Check</dt><dd>Unit test passing ../../../shared_prefs/app.xml; assert output stays strictly inside cache dir.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №027</span><span>android · share-sheet</span><span class="stamp fixed">fixed</span></header>
+  <h3>EXTRA_EXCLUDE_COMPONENTS is silently ignored on Android &lt; 13</h3>
+  <dl>
+    <dt>Scar</dt><dd>EXTRA_EXCLUDE_COMPONENTS prevents self-selection in chooser sheets, but it was only added in API 33. On API 24–32, Android silently ignores it, causing infinite re-share loops if the user picks the trampoline again.</dd>
+    <dt>Fix</dt><dd>Pair EXTRA_EXCLUDE_COMPONENTS with an incoming URI authority loop-breaker: if (uri.authority == "$packageName.fileprovider") return.</dd>
+    <dt>Check</dt><dd>Launch share target with own FileProvider URI; verify it drops without opening a chooser.</dd>
+  </dl>
+</article>
+
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/android/SKILL.md" style="color:var(--blood)">→ raw markdown (feed your agent directly)</a></p>
+
+<section class="forensic-footer">
+  <div>
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Author</h4>
+    <ul>
+      <li>Akash Priyadarshi (Patna, Bihar, India)</li>
+      <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+      <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+      <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+      <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Social</h4>
+    <ul>
+      <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+      <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+      <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+      <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+  });
+});
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

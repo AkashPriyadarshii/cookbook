@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design · anti-default gates — the morgue</title>
+<meta name="description" content="Design and UX lessons: anti-default reproduction gates, necessary-not-sufficient audit gates, blessed exemplar drift, and medium-aware slop tells.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/design.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="index.html#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="android.html">android</a>
+    <a href="flutter.html">flutter</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="design.html" style="color:var(--blood)">design</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>design · anti-default gates</strong></span>
+  <span>cases on file: <strong>4</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Banning a hue family is not design.</h1>
+  <p class="lede">Lessons from a 4-lane design-genius audit. Banning reproductions instead of hues, avoiding premature gate short-circuits, and medium-aware slop tells.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — design ward</h2>
+
+<div class="feed">
+
+<article class="case">
+  <header><span class="no">CASE №016</span><span>design · gates</span><span class="stamp fixed">fixed</span></header>
+  <h3>Ban the reproduction, never the hue</h3>
+  <dl>
+    <dt>Scar</dt><dd>A rule "no orange accent" bans a color family outright — even when a heritage gold on ivory has a real derivation line. It cannot distinguish blanket harm from justified derivation.</dd>
+    <dt>Fix</dt><dd>Gate the default REPRODUCTION as a whole (AND-ed: banned band + flat bg + no derivation). Clears if it escapes any one.</dd>
+    <dt>Check</dt><dd>State 3 conditions AND-ed. If the gate says "never warm on cream", it is a hue ban, not a reproduction gate.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №017</span><span>design · audits</span><span class="stamp fixed">fixed</span></header>
+  <h3>One gate passing ≠ the audit passed</h3>
+  <dl>
+    <dt>Scar</dt><dd>A color gate only clears color. A site with generic blue passes color but still fails type, layout, and copy. Checklist ending in "color-clear → stop" causes silent false-negatives.</dd>
+    <dt>Fix</dt><dd>Make every gate pass NECESSARY, NOT SUFFICIENT for the overall verdict. Run the full dimension rubric.</dd>
+    <dt>Check</dt><dd>Verify if any gate ends in "and stop". Every gate must declare what it clears and what remains.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №018</span><span>design · exemplars</span><span class="stamp fixed">fixed</span></header>
+  <h3>Bless-with-variety, not one exemplar</h3>
+  <dl>
+    <dt>Scar</dt><dd>A gate naming ONE passing example quietly blesses it as the new safe default — the corpus re-converges on that crowned pass case.</dd>
+    <dt>Fix</dt><dd>Vary the exemplar across archetypes/hue families in the same clause (cool cobalt, green chlorophyll, warm gilt) so no single look dominates.</dd>
+    <dt>Check</dt><dd>Check if pass-examples repeat one fixed swatch; diversify across archetypes.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №019</span><span>design · medium</span><span class="stamp fixed">fixed</span></header>
+  <h3>Medium-aware tells</h3>
+  <dl>
+    <dt>Scar</dt><dd>A web anti-slop checklist (centered hero, hover-only, CTA line-wrap) is nonsense on a physical or print surface. Judging a poster by hover-only is a false fail.</dd>
+    <dt>Fix</dt><dd>Scope each tells-list to its medium: web to screen only; physical/print to material, shape, and substrate.</dd>
+    <dt>Check</dt><dd>Verify if tells could even exist on a print poster or device; if not, label web-only.</dd>
+  </dl>
+</article>
+
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/design/SKILL.md" style="color:var(--blood)">→ raw markdown (feed your agent directly)</a></p>
+
+<section class="forensic-footer">
+  <div>
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Author</h4>
+    <ul>
+      <li>Akash Priyadarshi (Patna, Bihar, India)</li>
+      <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+      <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+      <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+      <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Social</h4>
+    <ul>
+      <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+      <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+      <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+      <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+  });
+});
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>

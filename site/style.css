@@ -191,9 +191,34 @@ nav a:hover { border-bottom-color: var(--blood); color: var(--blood); }
 .stamp.dead  { color: var(--error); }
 .stamp.fixed { color: var(--stamp-green); }
 
+/* forensic metadata footer */
+.forensic-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dashed var(--hairline);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+.forensic-footer h4 {
+  font-family: "Special Elite", monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 0.3rem;
+}
+.forensic-footer ul { list-style: none; padding: 0; margin: 0; }
+.forensic-footer a { color: var(--ink); text-decoration: none; }
+.forensic-footer a:hover { color: var(--blood); text-decoration: underline; }
+
 /* toe-tag footer */
 footer.toetag {
-  margin: 4rem 0 2.5rem; display:flex; justify-content:center;
+  margin: 3rem 0 2.5rem; display:flex; justify-content:center;
 }
 .tag {
   position:relative; border:2px solid var(--frame); background:var(--surface);

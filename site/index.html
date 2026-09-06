@@ -27,8 +27,11 @@
     <a href="#cases">cases</a>
     <a href="rust.html">rust</a>
     <a href="kotlin.html">kotlin</a>
+    <a href="android.html">android</a>
+    <a href="flutter.html">flutter</a>
     <a href="cross.html">cross</a>
     <a href="ci.html">ci</a>
+    <a href="design.html">design</a>
     <a href="learn.html">learn</a>
     <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
   </nav>
@@ -36,7 +39,7 @@
 
 <div class="ticker">
   <span>facility status: <strong>accepting bodies</strong></span>
-  <span>bodies processed: <strong id="bodycount">15</strong></span>
+  <span>bodies processed: <strong id="bodycount">27</strong></span>
   <span>recidivism rate: <strong>0%</strong></span>
   <span>est. 2026</span>
 </div>
@@ -55,9 +58,31 @@
   </div>
 </section>
 
-<h2 class="section-rule" id="cases">recent intakes <span class="count">— 15 on file</span></h2>
+<h2 class="section-rule" id="cases">recent intakes <span class="count">— 27 on file</span></h2>
 
 <div class="feed">
+
+<article class="case">
+  <header><span class="no">CASE №024</span><span>android · share-sheet</span><span class="stamp fixed">fixed</span></header>
+  <h3>Kotlin putExtra IPC crash on ArrayList</h3>
+  <dl>
+    <dt>Symptom</dt><dd>Multi-file share crashes at Binder IPC with NotSerializableException.</dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">intent.putExtra() resolves to Serializable overload for ArrayList&lt;Uri&gt;</span></dd>
+    <dt>Fix</dt><dd>Call intent.putParcelableArrayListExtra(EXTRA_STREAM, list) explicitly.</dd>
+    <dt>Check</dt><dd>grep -rn "putExtra.*EXTRA_STREAM.*ArrayList" app/ returns zero results.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №020</span><span>flutter · drift-db</span><span class="stamp fixed">fixed</span></header>
+  <h3>Drift column named text breaks codegen</h3>
+  <dl>
+    <dt>Symptom</dt><dd>build_runner produces an empty stub database.g.dart without compiler error.</dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">TextColumn get text =&gt; text()() collides with Table.text() DSL builder</span></dd>
+    <dt>Fix</dt><dd>Name column note, content, or body — never text.</dd>
+    <dt>Check</dt><dd>grep -rn "TextColumn get text" lib/db/ returns zero results.</dd>
+  </dl>
+</article>
 
 <article class="case">
   <header><span class="no">CASE №004</span><span>rust · android-ime</span><span class="stamp fixed">fixed</span></header>
@@ -81,29 +106,52 @@
   </dl>
 </article>
 
-<article class="case">
-  <header><span class="no">CASE №012</span><span>cross · multi-agent</span><span class="stamp fixed">fixed</span></header>
-  <h3>Commit theft between agents</h3>
-  <dl>
-    <dt>Symptom</dt><dd>Agent B's commit contains agent A's uncommitted work.</dd>
-    <dt>Cause</dt><dd><span class="redact" tabindex="0">git checkout in a shared dir while another agent edits mid-flight</span></dd>
-    <dt>Fix</dt><dd>One worktree per agent; never `git add -A` outside territory.</dd>
-    <dt>Check</dt><dd>`git show their-tip --stat` after every push — none of your files appear.</dd>
-  </dl>
-</article>
-
 </div>
 
-<p style="margin-top:1.5rem"><a href="rust.html" style="color:var(--blood-deep)">→ read all 15 case files</a></p>
+<p style="margin-top:1.5rem"><a href="rust.html" style="color:var(--blood)">→ read all 27 case files</a></p>
 
 <h2 class="section-rule">wards of the facility</h2>
 <div class="topics">
   <a class="topic-card" href="rust.html"><span class="n">6 cases</span><h3>rust/ boundaries</h3><p>FFI panics, poisoned locks, JSON composite keys, cross-compile artifacts, lying stubs.</p></a>
   <a class="topic-card" href="kotlin.html"><span class="n">3 cases</span><h3>kotlin/ settings wiring</h3><p>Dead preferences, toast-only handlers, retrofit signature clashes.</p></a>
+  <a class="topic-card" href="android.html"><span class="n">4 cases</span><h3>android/ share &amp; IPC</h3><p>Kotlin putExtra ArrayList IPC crash, null clipData drops, path traversal, API 33 recursion.</p></a>
+  <a class="topic-card" href="flutter.html"><span class="n">4 cases</span><h3>flutter/ drift &amp; toolchains</h3><p>Drift column collisions, query builder matchers, compileSdk mismatch, AGP 9 migration.</p></a>
   <a class="topic-card" href="cross.html"><span class="n">2 cases</span><h3>cross/ coordination</h3><p>Multi-agent worktrees, handoff logs.</p></a>
   <a class="topic-card" href="ci.html"><span class="n">4 cases</span><h3>ci/ codegen traps</h3><p>Toolchain pins smuggled by codegen, lint gates on generated output, silent CLI arg rejects.</p></a>
+  <a class="topic-card" href="design.html"><span class="n">4 cases</span><h3>design/ anti-default gates</h3><p>Reproduction bans over hue bans, necessary-not-sufficient audits, exemplar drift, medium tells.</p></a>
   <a class="topic-card" href="learn.html"><span class="n">teach yours</span><h3>/learn — the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
 </div>
+
+<section class="forensic-footer">
+  <div>
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Author</h4>
+    <ul>
+      <li>Akash Priyadarshi (Patna, Bihar, India)</li>
+      <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+      <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+      <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+      <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Social</h4>
+    <ul>
+      <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+      <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+      <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+      <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+    </ul>
+  </div>
+</section>
 
 </main>
 

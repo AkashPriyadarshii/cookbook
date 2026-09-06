@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>flutter · drift &amp; toolchains — the morgue</title>
+<meta name="description" content="Flutter, Drift SQLite, and Android Gradle lessons: DSL column name collisions, query builder matcher collisions, compileSdk mismatches, AGP 9 migration.">
+<link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/flutter.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
+  <nav>
+    <a href="index.html#cases">cases</a>
+    <a href="rust.html">rust</a>
+    <a href="kotlin.html">kotlin</a>
+    <a href="android.html">android</a>
+    <a href="flutter.html" style="color:var(--blood)">flutter</a>
+    <a href="cross.html">cross</a>
+    <a href="ci.html">ci</a>
+    <a href="learn.html">learn</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+  </nav>
+</header>
+
+<div class="ticker">
+  <span>ward: <strong>flutter · drift &amp; toolchains</strong></span>
+  <span>cases on file: <strong>4</strong></span>
+  <span><a href="index.html" style="color:inherit">← back to intake</a></span>
+</div>
+
+<main>
+<section class="hero" style="padding-bottom:1rem">
+  <h1 style="font-size:clamp(1.6rem,4vw,2.4rem)">Silent codegen stubs and compileSdk traps.</h1>
+  <p class="lede">Lessons from building an offline-first life tracker with Flutter, Drift, and Android 16. DSL collisions and Gradle toolchain breaks.</p>
+</section>
+
+<h2 class="section-rule" id="cases">case files — flutter ward</h2>
+
+<div class="feed">
+
+<article class="case">
+  <header><span class="no">CASE №020</span><span>flutter · drift-db</span><span class="stamp fixed">fixed</span></header>
+  <h3>Drift column named text silently breaks codegen</h3>
+  <dl>
+    <dt>Scar</dt><dd>Naming a Drift schema column TextColumn get text =&gt; text()() collides with Drift's Table.text() DSL builder. build_runner produces an empty stub database.g.dart with no compiler error, causing cascade missing-class failures.</dd>
+    <dt>Fix</dt><dd>Name the column note, content, or body — never text.</dd>
+    <dt>Check</dt><dd>grep -rn "TextColumn get text" lib/db/ must return zero results.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №021</span><span>flutter · symbols</span><span class="stamp fixed">fixed</span></header>
+  <h3>Drift query builders collide with flutter_test and widgets</h3>
+  <dl>
+    <dt>Scar</dt><dd>Importing package:drift/drift.dart in test files exports isNull and isNotNull, which collide with package:matcher. In UI files, Drift's Column and Table collide with Flutter layout widgets.</dd>
+    <dt>Fix</dt><dd>Hide colliding symbols on import: hide isNull, isNotNull in tests; hide Column, Table in widget files.</dd>
+    <dt>Check</dt><dd>flutter analyze flags ambiguous_import immediately on collision.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №022</span><span>flutter · toolchain</span><span class="stamp fixed">fixed</span></header>
+  <h3>Legacy plugin hardcodes compileSdk 34 vs AGP 36 requirement</h3>
+  <dl>
+    <dt>Scar</dt><dd>Older plugin versions hardcode compileSdk 34 in their inner android/build.gradle. When app dependencies require API 36, checkReleaseAarMetadata fails even if the root app specifies compileSdk = 36.</dd>
+    <dt>Fix</dt><dd>Bump the plugin to a federated version using compileSdk flutter.compileSdkVersion.</dd>
+    <dt>Check</dt><dd>flutter build apk --release --target-platform android-arm64 runs checkReleaseAarMetadata cleanly.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №023</span><span>flutter · agp9</span><span class="stamp fixed">fixed</span></header>
+  <h3>AGP 9+ / Built-in Kotlin breaks legacy KGP plugin registration</h3>
+  <dl>
+    <dt>Scar</dt><dd>AGP 9+ with android.builtInKotlin=true fails during compileReleaseJavaWithJavac with cannot find symbol in GeneratedPluginRegistrant.java if a plugin applies legacy KGP.</dd>
+    <dt>Fix</dt><dd>Upgrade to federated plugin packages supporting Built-in Kotlin, or migrate away from plugins lacking modern AGP support.</dd>
+    <dt>Check</dt><dd>GeneratedPluginRegistrant.java compiles without missing symbol errors.</dd>
+  </dl>
+</article>
+
+</div>
+
+<p style="margin-top:2rem"><a href="https://raw.githubusercontent.com/AkashPriyadarshii/cookbook/master/flutter/SKILL.md" style="color:var(--blood)">→ raw markdown (feed your agent directly)</a></p>
+
+<section class="forensic-footer">
+  <div>
+    <h4>Ecosystem</h4>
+    <ul>
+      <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+      <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Author</h4>
+    <ul>
+      <li>Akash Priyadarshi (Patna, Bihar, India)</li>
+      <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+      <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+      <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+      <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Social</h4>
+    <ul>
+      <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+      <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+      <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+      <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="toetag">
+  <div class="tag">
+    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
+    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
+    IF FOUND ALIVE AGAIN: check the file first.
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
+      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+  });
+});
+document.querySelectorAll('.redact').forEach(function(r){
+  r.addEventListener('click',function(){r.classList.toggle('open');});
+});
+</script>
+</body>
+</html>
