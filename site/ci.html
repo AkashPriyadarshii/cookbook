@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ci · codegen traps — the morgue</title>
+<title>ci · codegen traps: the morgue</title>
 <meta name="description" content="CI codegen traps: smuggled toolchain pins, lint gates on generated output, c2rust CLI argument traps, artifact-printing asserts.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/ci.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
   <p class="lede">Four CI runs of a c2rust transpilation pipeline. Toolchain pins smuggled into output, lint gates failing by design, silent arg rejection.</p>
 </section>
 
-<h2 class="section-rule" id="cases">case files — ci ward</h2>
+<h2 class="section-rule" id="cases">case files / ci ward</h2>
 
 <div class="feed">
 <article class="case">
@@ -71,7 +71,7 @@ run `rustup toolchain install &lt;ch&gt; --profile minimal --component clippy`
   <h3>Never apply your own lint gate to generated output</h3>
   <dl>
     <dt>Scar</dt><dd>Running `cargo clippy -- -D warnings` on machine-transpiled code fails ~always
-— mechanical output warns by design. The gate&#x27;s job is compile-success;
+- mechanical output warns by design. The gate&#x27;s job is compile-success;
 warnings are EVIDENCE (count them into the report), not failures.</dd>
     <dt>Fix</dt><dd>**Fix:** `cargo clippy` plain for generated code; `-D warnings` stays for
 first-party source only. Capture warning count + first error lines as report
@@ -85,7 +85,7 @@ with warnings &gt; 0 recorded.</dd>
   <header><span class="no">CASE №014</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
   <h3>Codegen CLIs reject intuitive args silently (verified: c2rust 0.20.0)</h3>
   <dl>
-    <dt>Scar</dt><dd>`c2rust transpile &lt;dir&gt;` doesn&#x27;t parse the directory — it emits `Could not
+    <dt>Scar</dt><dd>`c2rust transpile &lt;dir&gt;` doesn&#x27;t parse the directory - it emits `Could not
 parse input file. Skipping /work/src; is it well-formed C?` then later `Can&#x27;t
 emit build files after incremental transpiler run; skipped.` Two so</dd>
     <dt>Fix</dt><dd>**Fix:** enumerate entry files yourself, pass explicitly, sort for
@@ -99,7 +99,7 @@ excluded, dotfiles excluded, flat scan).</dd>
   <header><span class="no">CASE №015</span><span>ci · codegen traps</span><span class="stamp fixed">fixed</span></header>
   <h3>Assert-on-artifact steps must print the artifact</h3>
   <dl>
-    <dt>Scar</dt><dd>A CI step doing `grep -q &quot;✅ compiles&quot; &quot;$R&quot;` hides WHY when it fails — the
+    <dt>Scar</dt><dd>A CI step doing `grep -q &quot;✅ compiles&quot; &quot;$R&quot;` hides WHY when it fails - the
 evidence sat inside REPORT.md three runs in a row while we guessed.</dd>
     <dt>Fix</dt><dd>**Fix:**</dd>
   </dl>

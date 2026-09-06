@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>kotlin · settings — the morgue — the morgue</title>
+<title>kotlin · settings: the morgue</title>
 <meta name="description" content="Android settings wiring: dead preferences, toast-only destructive handlers, retrofit JVM signature clashes.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/kotlin.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
   <p class="lede">An audit of a production IME settings screen: preferences that render but are never read, buttons that report success and change nothing.</p>
 </section>
 
-<h2 class="section-rule" id="cases">case files — kotlin ward</h2>
+<h2 class="section-rule" id="cases">case files / kotlin ward</h2>
 
 <div class="feed">
 <article class="case">
@@ -49,10 +49,10 @@
   <h3>A settings screen is not a settings system</h3>
   <dl>
     <dt>Scar</dt><dd>Bug: ~20 preferences rendered fine in the UI, but the keyboard consumer read
-only 3 of them at startup. Seventeen toggles did literally nothing — sliders,
+only 3 of them at startup. Seventeen toggles did literally nothing - sliders,
 switches, all silently ignored. Nothing crashed; users just could</dd>
     <dt>Fix</dt><dd>**Fix:** for every `app:key` in preferences XML, grep the consumer for its
-read site. Any key with zero non-UI readers is a dead setting — wire it at
+read site. Any key with zero non-UI readers is a dead setting - wire it at
 one entry point (`onStartInputView` for IMEs, `onResume` for activities) or
 delete it.</dd>
     <dt>Check</dt><dd>**Check:** script it: extract keys from XML, grep each against source minus
@@ -64,7 +64,7 @@ the settings package. Zero hits = fail.</dd>
   <header><span class="no">CASE №008</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
   <h3>Toast-only handlers</h3>
   <dl>
-    <dt>Scar</dt><dd>Bug: &quot;Clear clipboard history&quot; showed a success toast and deleted nothing —
+    <dt>Scar</dt><dd>Bug: &quot;Clear clipboard history&quot; showed a success toast and deleted nothing -
 the click listener ended at `Toast.makeText(...)`. User believed data was
 gone; it wasn&#x27;t. Worst kind of silent failure because it reports succe</dd>
     <dt>Fix</dt><dd>**Fix:** a destructive-action handler must perform the mutation (or visibly

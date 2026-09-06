@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>android · share &amp; IPC — the morgue</title>
+<title>android · share &amp; IPC: the morgue</title>
 <meta name="description" content="Android share sheets, Intent IPC, and ContentProvider boundaries: Kotlin putExtra ArrayList serialization crashes, null clipData drops, path traversal, recursion traps, image whitelist, PDF object streams.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/android.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
   <p class="lede">Lessons from building ExifDrop, an offline zero-UI share trampoline for Android. Intent overload traps, unpopulated clipData, and sandbox traversal.</p>
 </section>
 
-<h2 class="section-rule" id="cases">case files — android ward</h2>
+<h2 class="section-rule" id="cases">case files / android ward</h2>
 
 <div class="feed">
 
@@ -77,7 +77,7 @@
   <header><span class="no">CASE №027</span><span>android · share-sheet</span><span class="stamp fixed">fixed</span></header>
   <h3>EXTRA_EXCLUDE_COMPONENTS is silently ignored on Android &lt; 13</h3>
   <dl>
-    <dt>Scar</dt><dd>EXTRA_EXCLUDE_COMPONENTS prevents self-selection in chooser sheets, but it was only added in API 33. On API 24–32, Android silently ignores it, causing infinite re-share loops if the user picks the trampoline again.</dd>
+    <dt>Scar</dt><dd>EXTRA_EXCLUDE_COMPONENTS prevents self-selection in chooser sheets, but it was only added in API 33. On API 24-32, Android silently ignores it, causing infinite re-share loops if the user picks the trampoline again.</dd>
     <dt>Fix</dt><dd>Pair EXTRA_EXCLUDE_COMPONENTS with an incoming URI authority loop-breaker: if (uri.authority == "$packageName.fileprovider") return.</dd>
     <dt>Check</dt><dd>Launch share target with own FileProvider URI; verify it drops without opening a chooser.</dd>
   </dl>
@@ -88,7 +88,7 @@
   <h3>image/* claims what you can&#x27;t strip: whitelist, or ship dirty silently</h3>
   <dl>
     <dt>Scar</dt><dd>image/* feeds SVG/GIF/BMP/HEIC into exifinterface, which has no segment to parse. The file passes through byte-identical with XML metadata intact under a &quot;stripped&quot; guarantee.</dd>
-    <dt>Fix</dt><dd>Fail closed in prepare(): accept only provable types — if (mime !in setOf(&quot;image/jpeg&quot;,&quot;image/png&quot;,&quot;image/webp&quot;,&quot;application/pdf&quot;)) return null.</dd>
+    <dt>Fix</dt><dd>Fail closed in prepare(): accept only provable types - if (mime !in setOf(&quot;image/jpeg&quot;,&quot;image/png&quot;,&quot;image/webp&quot;,&quot;application/pdf&quot;)) return null.</dd>
     <dt>Check</dt><dd>Share an SVG → skipped-toast, original untouched, nothing dirty ships.</dd>
   </dl>
 </article>

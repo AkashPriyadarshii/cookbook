@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cookbook — the morgue for dead bugs</title>
+<title>cookbook - the morgue for dead bugs</title>
 <meta name="description" content="Battle-tested coding lessons from real AI-agent sessions. Rust FFI/JNI crashes, Android silent-failure UI, multi-agent git, CI codegen traps. Every lesson has a scar, a fix, and a check. For Claude Code, Cursor, Copilot, any AI coding agent.">
 <meta name="keywords" content="rust ffi jni panic, android settings wiring, multi-agent git, ci codegen traps, c2rust, AI agent skills, claude code skills, cursor rules, coding lessons, debugging lessons, silent failure, concurrency footguns">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/">
-<meta property="og:title" content="cookbook — the morgue for dead bugs">
-<meta property="og:description" content="15 production scars. Each one broke something real. Scar → fix → check. Free, plain markdown, any AI agent.">
+<meta property="og:title" content="cookbook: the morgue for dead bugs">
+<meta property="og:description" content="30 production scars. Each one broke something real. Scar → fix → check. Free, plain markdown, any AI agent.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://akashpriyadarshii.github.io/cookbook/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
 
 <div class="ticker">
   <span>facility status: <strong>accepting bodies</strong></span>
-  <span>bodies processed: <strong id="bodycount">27</strong></span>
+  <span>bodies processed: <strong id="bodycount">30</strong></span>
   <span>recidivism rate: <strong>0%</strong></span>
   <span>est. 2026</span>
 </div>
@@ -58,7 +58,7 @@
   </div>
 </section>
 
-<h2 class="section-rule" id="cases">recent intakes <span class="count">— 30 on file</span></h2>
+<h2 class="section-rule" id="cases">recent intakes <span class="count">· 30 on file</span></h2>
 
 <div class="feed">
 
@@ -79,7 +79,7 @@
   <dl>
     <dt>Symptom</dt><dd>build_runner produces an empty stub database.g.dart without compiler error.</dd>
     <dt>Cause</dt><dd><span class="redact" tabindex="0">TextColumn get text =&gt; text()() collides with Table.text() DSL builder</span></dd>
-    <dt>Fix</dt><dd>Name column note, content, or body — never text.</dd>
+    <dt>Fix</dt><dd>Name column note, content, or body - never text.</dd>
     <dt>Check</dt><dd>grep -rn "TextColumn get text" lib/db/ returns zero results.</dd>
   </dl>
 </article>
@@ -90,7 +90,7 @@
   <dl>
     <dt>Symptom</dt><dd>IME crash-loops on device. No stack trace survives.</dd>
     <dt>Cause</dt><dd><span class="redact" tabindex="0">panic="abort" + .unwrap() on poisoned lock in JNI path</span></dd>
-    <dt>Fix</dt><dd>Three lines — recover via poisoned.into_inner().</dd>
+    <dt>Fix</dt><dd>Three lines - recover via poisoned.into_inner().</dd>
     <dt>Check</dt><dd>grep unwrap() in every extern fn before release.</dd>
   </dl>
 </article>
@@ -100,7 +100,7 @@
   <h3>The button that lied</h3>
   <dl>
     <dt>Symptom</dt><dd>User believes clipboard history deleted. It wasn't.</dd>
-    <dt>Cause</dt><dd><span class="redact" tabindex="0">click listener ends at Toast.makeText() — success toast, zero mutation</span></dd>
+    <dt>Cause</dt><dd><span class="redact" tabindex="0">click listener ends at Toast.makeText() - success toast, zero mutation</span></dd>
     <dt>Fix</dt><dd>Destructive handler must touch storage or propagate error.</dd>
     <dt>Check</dt><dd>Grep delete/clear/reset listeners; each body must mutate or fail loudly.</dd>
   </dl>
@@ -119,7 +119,7 @@
   <a class="topic-card" href="cross.html"><span class="n">3 cases</span><h3>cross/ coordination</h3><p>Multi-agent worktrees, handoff logs, executor liveness.</p></a>
   <a class="topic-card" href="ci.html"><span class="n">4 cases</span><h3>ci/ codegen traps</h3><p>Toolchain pins smuggled by codegen, lint gates on generated output, silent CLI arg rejects.</p></a>
   <a class="topic-card" href="design.html"><span class="n">4 cases</span><h3>design/ anti-default gates</h3><p>Reproduction bans over hue bans, necessary-not-sufficient audits, exemplar drift, medium tells.</p></a>
-  <a class="topic-card" href="learn.html"><span class="n">teach yours</span><h3>/learn — the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
+  <a class="topic-card" href="learn.html"><span class="n">teach yours</span><h3>/learn - the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
 </div>
 
 <section class="forensic-footer">

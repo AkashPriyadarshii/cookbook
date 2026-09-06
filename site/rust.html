@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>rust · boundaries — the morgue — the morgue</title>
+<title>rust · boundaries: the morgue</title>
 <meta name="description" content="Rust boundary lessons: JNI panic handling, poisoned mutex recovery, JSON composite keys, cross-compile artifact discipline, stub honesty.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/rust.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
   <p class="lede">A Rust engine behind JNI calls on a production keyboard. Every crash here shipped to a device before it was filed.</p>
 </section>
 
-<h2 class="section-rule" id="cases">case files — rust ward</h2>
+<h2 class="section-rule" id="cases">case files / rust ward</h2>
 
 <div class="feed">
 <article class="case">
@@ -49,7 +49,7 @@
   <h3>panic=abort + FFI = host process death</h3>
   <dl>
     <dt>Scar</dt><dd>With `panic = &quot;abort&quot;` in the release profile, any panic inside a JNI call kills
-the entire host process — the IME crash-loops on device. `.unwrap()` on a mutex
+the entire host process - the IME crash-loops on device. `.unwrap()` on a mutex
 lock is the classic trigger (poisoned lock → unwrap panics </dd>
     <dt>Fix</dt><dd>**Fix:** never `.unwrap()` on locks or FFI paths. Recover from poison:</dd>
   </dl>
@@ -66,7 +66,7 @@ lock is the classic trigger (poisoned lock → unwrap panics </dd>
   <h3>Global state: OnceLock&lt;Mutex&lt;T&gt;&gt;, init-once</h3>
   <dl>
     <dt>Scar</dt><dd>Engine state as `static ENGINE: OnceLock&lt;Mutex&lt;T&gt;&gt;`. Init once from the host,
-reuse across calls. OnceLock can&#x27;t be cleared — &quot;destroy&quot; just drops on process
+reuse across calls. OnceLock can&#x27;t be cleared - &quot;destroy&quot; just drops on process
 exit; don&#x27;t pretend otherwise in a destroy() function.</dd>
   </dl>
 </article>
@@ -88,7 +88,7 @@ struct Row { k1: String, k2: String, v: u32 }</pre>
   <dl>
     <dt>Scar</dt><dd>- Targets configured in `.cargo/config.toml`, not ad-hoc env vars.
 - Artifact name ≠ crate name: `libakashboard_engine.so` must be copied as
-  whatever the host&#x27;s `System.loadLibrary(&quot;predictor&quot;)` expects — here
+  whatever the host&#x27;s `System.loadLibrary(&quot;predictor&quot;)` expects - here
   `jniLi</dd>
   </dl>
 </article>
@@ -108,7 +108,7 @@ log loudly, or don&#x27;t ship the binding.</dd>
   <h3>Consistency tests beat per-function ceremony</h3>
   <dl>
     <dt>Scar</dt><dd>For optimized algorithms (early-exit edit distance), test equivalence against
-the naive version across representative inputs — catches optimization bugs that
+the naive version across representative inputs - catches optimization bugs that
 per-function unit tests miss. Property-style check, no framewo</dd>
   </dl>
 </article>

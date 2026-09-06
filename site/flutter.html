@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>flutter · drift &amp; toolchains — the morgue</title>
+<title>flutter · drift &amp; toolchains: the morgue</title>
 <meta name="description" content="Flutter, Drift SQLite, and Android Gradle lessons: DSL column name collisions, query builder matcher collisions, compileSdk mismatches, AGP 9 migration.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/flutter.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
   <p class="lede">Lessons from building an offline-first life tracker with Flutter, Drift, and Android 16. DSL collisions and Gradle toolchain breaks.</p>
 </section>
 
-<h2 class="section-rule" id="cases">case files — flutter ward</h2>
+<h2 class="section-rule" id="cases">case files / flutter ward</h2>
 
 <div class="feed">
 
@@ -49,7 +49,7 @@
   <h3>Drift column named text silently breaks codegen</h3>
   <dl>
     <dt>Scar</dt><dd>Naming a Drift schema column TextColumn get text =&gt; text()() collides with Drift's Table.text() DSL builder. build_runner produces an empty stub database.g.dart with no compiler error, causing cascade missing-class failures.</dd>
-    <dt>Fix</dt><dd>Name the column note, content, or body — never text.</dd>
+    <dt>Fix</dt><dd>Name the column note, content, or body - never text.</dd>
     <dt>Check</dt><dd>grep -rn "TextColumn get text" lib/db/ must return zero results.</dd>
   </dl>
 </article>
