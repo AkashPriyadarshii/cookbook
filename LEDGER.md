@@ -8,6 +8,13 @@ Format: `YYYY-MM-DD | <topic> | accept|reject | one-line lesson | source`
 
 ## Entries
 
+- 2026-09-06 | android | accept | intent.putExtra(String, ArrayList<Uri>) resolves to Serializable in Kotlin; call putParcelableArrayListExtra to prevent Binder IPC crash | session (exifdrop share trampoline)
+- 2026-09-06 | android | accept | ACTION_SEND_MULTIPLE with null clipData drops batch if reading single Uri extra; branch on action for parcelable array list | session (exifdrop share trampoline)
+- 2026-09-06 | android | accept | untrusted OpenableColumns.DISPLAY_NAME escapes cache dir via ../; sanitize to bare alphanumeric stem | session (exifdrop share trampoline)
+- 2026-09-06 | android | accept | EXTRA_EXCLUDE_COMPONENTS ignored on API <33; pair with internal URI authority guard to prevent share recursion | session (exifdrop share trampoline)
+- 2026-09-06 | android | reject | WebP zero-size chunk infinite loop on continue — generic while loop trap, not Android/toolchain specific | session check
+- 2026-09-06 | android | reject | PDF inline /Info dict range.last-1 offset calculation — specific to custom hand-rolled regex parser | session check
+
 - 2026-09-01 | flutter | accept | drift TextColumn text collides with Table.text() DSL builder; name note/body/content | session (imperium life-tracker)
 - 2026-09-01 | flutter | accept | drift query builder exports isNull/isNotNull/Column/Table colliding with flutter_test and widgets; hide on import | session (imperium life-tracker)
 - 2026-09-01 | flutter | accept | legacy plugin hardcoded compileSdk 34 fails checkReleaseAarMetadata under AGP 36; bump to federated version | session (imperium life-tracker)
