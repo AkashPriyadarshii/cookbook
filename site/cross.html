@@ -31,7 +31,7 @@
 
 <div class="ticker">
   <span>ward: <strong>cross · coordination</strong></span>
-  <span>cases on file: <strong>2</strong></span>
+  <span>cases on file: <strong>3</strong></span>
   <span><a href="index.html" style="color:inherit">← back to intake</a></span>
 </div>
 
@@ -48,10 +48,8 @@
   <header><span class="no">CASE №010</span><span>cross · coordination</span><span class="stamp fixed">fixed</span></header>
   <h3>A checkout in a shared dir steals uncommitted edits</h3>
   <dl>
-    <dt>Scar</dt><dd>Bug: agent B ran `git checkout &lt;branch-B&gt;` in the directory where agent A was
-mid-edit. A&#x27;s uncommitted changes rode along and were swept into B&#x27;s next
-commit. Recovery meant diffing B&#x27;s tip against intent and porting fi</dd>
-    <dt>Fix</dt><dd>**Fix:** one worktree per agent, created up front:</dd>
+    <dt>Scar</dt><dd>Agent B ran `git checkout &lt;branch-B&gt;` in the directory where agent A was mid-edit. A&#x27;s uncommitted changes rode along and were swept into B&#x27;s next commit. Recovery meant diffing B&#x27;s tip against intent and porting files back by hand.</dd>
+    <dt>Fix</dt><dd>One worktree per agent, created up front:</dd>
   </dl>
   <pre style="margin:0;padding:.8rem .95rem;border-top:1px dashed var(--hairline);overflow-x:auto;font-size:.78rem">git worktree add ../&lt;repo&gt;-&lt;topic&gt; &lt;branch&gt;</pre>
 </article>
@@ -62,7 +60,18 @@ commit. Recovery meant diffing B&#x27;s tip against intent and porting fi</dd>
   <dl>
     <dt>Scar</dt><dd>Parallel agents don&#x27;t see each other&#x27;s sessions. A root-level HANDOFF.md with
 a mandatory append-before-exit entry (did / in-flight / don&#x27;t-touch), newest
-first, plus a territory table in AGENTS.md (&quot;read FIRST&quot;), preven</dd>
+first, plus a territory table in AGENTS.md (&quot;read FIRST&quot;), prevents
+both collision and duplicated work.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №012</span><span>cross · liveness</span><span class="stamp fixed">fixed</span></header>
+  <h3>Background work must die with the activity or the hand-off races the destroy</h3>
+  <dl>
+    <dt>Scar</dt><dd>A zero-UI trampoline activity ran the strip on a raw single-thread executor and called startActivity from runOnUiThread when done. Back-press mid-strip destroyed the activity under the running executor; the UI runnable then fired startActivity on a dead activity and threw IllegalStateException in the originating app&#x27;s face. Home press orphaned the completion the same way.</dd>
+    <dt>Fix</dt><dd>Three cheap independent guards: swallow back-press (onBackPressed no-op) while the short strip window is open; bail in the UI runnable (if (isDestroyed || isFinishing) return) before any Toast or startActivity; shutdownNow() the executor in onDestroy. Third partner: onNewIntent re-reads a second share during a strip.</dd>
+    <dt>Check</dt><dd>Share → Back mid-strip → app stays alive, no crash, no toast, no chooser; second share during a strip re-reads via onNewIntent.</dd>
   </dl>
 </article>
 </div>

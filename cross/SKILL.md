@@ -36,3 +36,22 @@ a mandatory append-before-exit entry (did / in-flight / don't-touch), newest
 first, plus a territory table in AGENTS.md ("read FIRST"), prevents both
 collision and duplicated work. The log entry costs 30 seconds; untangling a
 stolen commit costs an hour.
+
+## 3. Background work must die with the activity or the hand-off races the destroy
+
+Bug: a zero-UI trampoline activity ran the strip on a raw
+`Executors.newSingleThreadExecutor()` and called `startActivity()` from
+`runOnUiThread` when done. Back-press mid-strip destroyed the activity under
+the running executor; the UI runnable then fired `startActivity` on a dead
+activity and threw `IllegalStateException` in the originating app's face. Home
+press orphan-marked the completion the same way.
+
+**Fix:** three guards, cheap and independent:
+- swallow back-press (`onBackPressed` no-op) while the short strip window is
+  open — the chooser after it has its own back handling;
+- bail in the UI runnable (`if (isDestroyed || isFinishing) return`) before
+  any Toast/startActivity;
+- `shutdownNow()` the executor in `onDestroy`.
+
+**Check:** share → press Back mid-strip → app stays alive, no crash, no
+toast, no chooser; second share during a strip re-reads via `onNewIntent`.

@@ -4,6 +4,11 @@ One line per lesson accepted or rejected during harvest/learning. Prevents
 duplicate imports and records provenance. Newest first. Append-only — a wrong
 entry is corrected by a new entry, never edited.
 
+- 2026-09-06 | cross | accept | background work must die with the activity; executor shutdownNow + isDestroyed bail + swallow back-press, or startActivity races the destroy | session (exifdrop)
+- 2026-09-06 | android | accept | image/* shares SVG/GIF/HEIC into exifinterface unhandled; whitelist jpeg/png/webp/pdf or dirty bytes ship | session (exifdrop)
+- 2026-09-06 | android | accept | PDF ObjStm: /Info N 0 R guard passes with object packed in stream, no literal header, dirty metadata ships; verify literal N 0 obj | session (exifdrop)
+- 2026-09-06 | android | reject | ColorOS/realme "Share via floating window" floats every app incl. trampoline; app-side resizeableActivity=false etc. cannot defeat the caption, real fix is the device setting, no code lesson | session (exifdrop)
+
 Format: `YYYY-MM-DD | <topic> | accept|reject | one-line lesson | source`
 
 ## Entries

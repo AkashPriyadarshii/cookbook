@@ -22,14 +22,8 @@ Android invokes Java serialization on each `Uri` instead of parceling. Custom or
 `HierarchicalUri` instances fail or crash with `NotSerializableException`.
 
 **Fix:** call `putParcelableArrayListExtra` explicitly:
-
-```kotlin
-// WRONG: resolves to putExtra(String, Serializable)
-intent.putExtra(Intent.EXTRA_STREAM, ArrayList(uris))
-
-// CORRECT: forces Bundle.putParcelableArrayList
-intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
-```
+`intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))`
+(`putExtra` resolves to `putExtra(String, Serializable)` — wrong.)
 
 **Check:** `grep -rn "putExtra.*EXTRA_STREAM.*ArrayList" app/` returns zero hits.
 
@@ -53,20 +47,11 @@ if (intent.action == Intent.ACTION_SEND_MULTIPLE) {
 
 ## 3. Untrusted `DISPLAY_NAME` escapes sandbox via path traversal
 
-Querying `OpenableColumns.DISPLAY_NAME` from `contentResolver.query(uri, ...)` returns
-provider-controlled strings. A hostile provider can send `../../shared_prefs/app.xml`.
-Directly using `File(cacheDir, name)` allows directory traversal and private file overwrites.
+`OpenableColumns.DISPLAY_NAME` is provider-controlled; a hostile provider sends
+`../../shared_prefs/app.xml`, and `File(cacheDir, name)` traverses out.
 
-**Fix:** sanitize to a bare basename: filter to `[a-zA-Z0-9 _-.]`, collapse `..`, and trim dots:
-
-```kotlin
-val stem = sourceName?.substringBeforeLast('.', "")?.take(80)
-    ?.map { if (it in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 _-.") it else '_' }
-    ?.joinToString("")?.replace(Regex("\\.{2,}"), "_")?.trim('.')
-    ?.takeIf { it.isNotBlank() } ?: "share_${hash}"
-```
-
-**Check:** test passing `"../../../shared_prefs/app.xml"`, `"../"`, `"...jpg"`; assert result stays in cache dir.
+**Fix:** sanitize to a bare basename (allow `[a-zA-Z0-9 _-.]`, collapse `..`,
+trim dots), else fall back to a hash — then any RESULT with `/` or `..` fails the check.
 
 ## 4. `EXTRA_EXCLUDE_COMPONENTS` is silently ignored on Android < 13
 
@@ -85,3 +70,25 @@ if (uri.authority == "$packageName.fileprovider") return
 ```
 
 **Check:** test trampoline with an internal FileProvider URI; verify it drops without opening chooser.
+
+## 5. `image/*` claims what you can't strip: whitelist, or ship dirty silently
+
+`image/*` feeds SVG/GIF/BMP/HEIC into `exifinterface`, which has no segment to
+parse — the file passes through byte-identical with XML metadata intact under a
+"stripped" guarantee.
+
+**Fix:** fail closed in `prepare()` — accept only provable types:
+`if (mime !in setOf("image/jpeg","image/png","image/webp","application/pdf")) return null`
+
+**Check:** share an SVG → skipped-toast, original untouched, nothing dirty.
+
+## 6. Object streams: `/Info N 0 R` guard passes, PDF ships dirty
+
+ObjStm detection only refuses when NO `/Info`/`/Metadata` ref exists. Trailer
+with `/Info 3 0 R` where object 3 is packed compressed inside the ObjStm (no
+literal `3 0 obj`) → the regex blankers no-op, metadata ships.
+
+**Fix:** after resolving refs, verify each has a literal object header:
+`for (n in refs) if (!Regex("""(?<!\d)$n\s+0\s+obj""").containsMatchIn(s)) throw IllegalArgumentException(...)`
+
+**Check:** `/Info 3 0 R` + obj 3 inside ObjStm → throws, never a dirty hand-off.

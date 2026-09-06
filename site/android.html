@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>android · share &amp; IPC — the morgue</title>
-<meta name="description" content="Android share sheets, Intent IPC, and ContentProvider boundaries: Kotlin putExtra ArrayList serialization crashes, null clipData drops, path traversal, recursion traps.">
+<meta name="description" content="Android share sheets, Intent IPC, and ContentProvider boundaries: Kotlin putExtra ArrayList serialization crashes, null clipData drops, path traversal, recursion traps, image whitelist, PDF object streams.">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/android.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
 
 <div class="ticker">
   <span>ward: <strong>android · share &amp; IPC</strong></span>
-  <span>cases on file: <strong>4</strong></span>
+  <span>cases on file: <strong>6</strong></span>
   <span><a href="index.html" style="color:inherit">← back to intake</a></span>
 </div>
 
@@ -80,6 +80,26 @@
     <dt>Scar</dt><dd>EXTRA_EXCLUDE_COMPONENTS prevents self-selection in chooser sheets, but it was only added in API 33. On API 24–32, Android silently ignores it, causing infinite re-share loops if the user picks the trampoline again.</dd>
     <dt>Fix</dt><dd>Pair EXTRA_EXCLUDE_COMPONENTS with an incoming URI authority loop-breaker: if (uri.authority == "$packageName.fileprovider") return.</dd>
     <dt>Check</dt><dd>Launch share target with own FileProvider URI; verify it drops without opening a chooser.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №028</span><span>android · media</span><span class="stamp fixed">fixed</span></header>
+  <h3>image/* claims what you can&#x27;t strip: whitelist, or ship dirty silently</h3>
+  <dl>
+    <dt>Scar</dt><dd>image/* feeds SVG/GIF/BMP/HEIC into exifinterface, which has no segment to parse. The file passes through byte-identical with XML metadata intact under a &quot;stripped&quot; guarantee.</dd>
+    <dt>Fix</dt><dd>Fail closed in prepare(): accept only provable types — if (mime !in setOf(&quot;image/jpeg&quot;,&quot;image/png&quot;,&quot;image/webp&quot;,&quot;application/pdf&quot;)) return null.</dd>
+    <dt>Check</dt><dd>Share an SVG → skipped-toast, original untouched, nothing dirty ships.</dd>
+  </dl>
+</article>
+
+<article class="case">
+  <header><span class="no">CASE №029</span><span>android · pdf</span><span class="stamp fixed">fixed</span></header>
+  <h3>Object streams: /Info N 0 R guard passes, PDF ships dirty</h3>
+  <dl>
+    <dt>Scar</dt><dd>ObjStm detection only refuses when NO /Info or /Metadata ref exists. Trailer with /Info 3 0 R where object 3 is packed compressed inside the ObjStm (no literal 3 0 obj) → the regex blankers no-op, metadata ships.</dd>
+    <dt>Fix</dt><dd>After resolving refs, verify each has a literal object header: for (n in refs) if (!Regex(&quot;&quot;&quot;(?&lt;!\d)$n\s+0\s+obj&quot;&quot;&quot;).containsMatchIn(s)) throw IllegalArgumentException(...).</dd>
+    <dt>Check</dt><dd>/Info 3 0 R + obj 3 inside ObjStm → throws, never a dirty hand-off.</dd>
   </dl>
 </article>
 
