@@ -3,28 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>cookbook - the morgue for dead bugs</title>
-<meta name="description" content="Battle-tested coding lessons from real AI-agent sessions. Rust FFI/JNI crashes, Android silent-failure UI, multi-agent git, CI codegen traps. Every lesson has a scar, a fix, and a check. For Claude Code, Cursor, Copilot, any AI coding agent.">
+<title>cookbook — the variance sheet for dead builds</title>
+<meta name="description" content="Thirty production bugs, each one measured and corrected. Battle-tested coding lessons from real AI-agent sessions: Rust FFI/JNI crashes, Android silent-failure UI, multi-agent git, CI codegen traps. Every entry is scar → fix → check. Plain markdown, free, any AI coding agent.">
 <meta name="keywords" content="rust ffi jni panic, android settings wiring, multi-agent git, ci codegen traps, c2rust, AI agent skills, claude code skills, cursor rules, coding lessons, debugging lessons, silent failure, concurrency footguns">
 <link rel="canonical" href="https://akashpriyadarshii.github.io/cookbook/">
-<meta property="og:title" content="cookbook: the morgue for dead bugs">
-<meta property="og:description" content="30 production scars. Each one broke something real. Scar → fix → check. Free, plain markdown, any AI agent.">
+<meta property="og:title" content="cookbook: the variance sheet for dead builds">
+<meta property="og:description" content="30 production scars drawn, measured, corrected. scar → fix → check. Free, plain markdown, any AI agent.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://akashpriyadarshii.github.io/cookbook/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="variance.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"cookbook","description":"Battle-tested coding lessons from real AI-agent sessions, formatted as scar→fix→check skill files for AI coding agents.","codeRepository":"https://github.com/AkashPriyadarshii/cookbook","license":"https://opensource.org/licenses/MIT","programmingLanguage":["Rust","Kotlin"],"keywords":"AI agent skills, rust FFI, JNI, android, git coordination"}
+{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"cookbook","description":"Battle-tested coding lessons from real AI-agent sessions, formatted as scar to fix to check skill files for AI coding agents.","codeRepository":"https://github.com/AkashPriyadarshii/cookbook","license":"https://opensource.org/licenses/MIT","programmingLanguage":["Rust","Kotlin"],"keywords":"AI agent skills, rust FFI, JNI, android, git coordination"}
 </script>
+
 </head>
 <body>
+<div class="sheet">
+  <span class="crop tl" aria-hidden="true"></span>
+  <span class="crop tr" aria-hidden="true"></span>
+  <span class="crop bl" aria-hidden="true"></span>
+  <span class="crop br" aria-hidden="true"></span>
 
 <header class="masthead">
-  <div class="wordmark"><a href="index.html">the <span class="red">morgue</span></a></div>
-  <nav>
-    <a href="#cases">cases</a>
+  <div class="wordmark"><a href="index.html">the variance <span class="red">sheet</span></a></div>
+  <nav aria-label="primary">
+    <a href="#revisions" aria-current="page">revisions</a>
     <a href="rust.html">rust</a>
     <a href="kotlin.html">kotlin</a>
     <a href="android.html">android</a>
@@ -33,37 +39,38 @@
     <a href="ci.html">ci</a>
     <a href="design.html">design</a>
     <a href="learn.html">learn</a>
-    <a href="https://github.com/AkashPriyadarshii/cookbook">github ↗</a>
+    <a href="https://github.com/AkashPriyadarshii/cookbook">source ↗</a>
   </nav>
 </header>
 
-<div class="ticker">
-  <span>facility status: <strong>accepting bodies</strong></span>
-  <span>bodies processed: <strong id="bodycount">30</strong></span>
-  <span>recidivism rate: <strong>0%</strong></span>
-  <span>est. 2026</span>
+<div class="specstrip" aria-label="sheet status">
+  <span>drawing status: <strong>accepting marks</strong></span>
+  <span>lines drawn: <strong id="bodycount">30</strong></span>
+  <span>lines corrected: <strong>30</strong></span>
+  <span>spec v2026</span>
 </div>
 
 <main>
 <section class="hero">
-  <h1>Your bug is not special.<br>It already died <span class="strike">here</span>.</h1>
-  <p class="lede">Every lesson in this morgue killed a real build before we
-  learned its name. Each case file follows one format:
-  <strong>scar → fix → check</strong>. No idioms, no style-guide sermons,
-  nothing official docs already teach. Plain markdown. Free. Any AI agent reads it.</p>
+  <h1>your bug is <span class="mark">not a new line</span>.<br>it's already on this sheet.</h1>
+  <p class="lede">Every entry on this drawing killed a real build before we measured it.
+  Each is logged the same way: <strong>scar → fix → check</strong>. No idioms, no
+  style-guide sermons, nothing official docs already teach. Plain markdown. Free.
+  Any AI agent reads it.</p>
 
-  <div class="evidence">
-    <header><span>evidence bag №001</span><button class="copy" data-copy="git clone https://github.com/AkashPriyadarshii/cookbook.git">copy</button></header>
-    <pre>git clone https://github.com/AkashPriyadarshii/cookbook.git</pre>
+  <div class="plot">
+    <div class="plt-head"><span>FIG. 00 · <b>check this project out</b></span>
+      <button class="copy" data-copy="git clone https://github.com/AkashPriyadarshii/cookbook.git">copy</button></div>
+    <pre><span class="prompt">$</span> git clone https://github.com/AkashPriyadarshii/cookbook.git</pre>
   </div>
 </section>
 
-<h2 class="section-rule" id="cases">recent intakes <span class="count">· 30 on file</span></h2>
+<div class="centerline" id="revisions"><h2>recent revisions <span class="cnt">· 30 on file</span></h2></div>
 
 <div class="feed">
 
 <article class="case">
-  <header><span class="no">CASE №024</span><span>android · share-sheet</span><span class="stamp fixed">fixed</span></header>
+  <div class="case-head"><span class="no">REV <b>024</b></span><span>android · share-sheet</span><span class="stamp">corrected</span></div>
   <h3>Kotlin putExtra IPC crash on ArrayList</h3>
   <dl>
     <dt>Symptom</dt><dd>Multi-file share crashes at Binder IPC with NotSerializableException.</dd>
@@ -74,7 +81,7 @@
 </article>
 
 <article class="case">
-  <header><span class="no">CASE №020</span><span>flutter · drift-db</span><span class="stamp fixed">fixed</span></header>
+  <div class="case-head"><span class="no">REV <b>020</b></span><span>flutter · drift-db</span><span class="stamp">corrected</span></div>
   <h3>Drift column named text breaks codegen</h3>
   <dl>
     <dt>Symptom</dt><dd>build_runner produces an empty stub database.g.dart without compiler error.</dd>
@@ -85,7 +92,7 @@
 </article>
 
 <article class="case">
-  <header><span class="no">CASE №004</span><span>rust · android-ime</span><span class="stamp fixed">fixed</span></header>
+  <div class="case-head"><span class="no">REV <b>004</b></span><span>rust · android-ime</span><span class="stamp">corrected</span></div>
   <h3>Host process death by unwrap</h3>
   <dl>
     <dt>Symptom</dt><dd>IME crash-loops on device. No stack trace survives.</dd>
@@ -96,7 +103,7 @@
 </article>
 
 <article class="case">
-  <header><span class="no">CASE №009</span><span>kotlin · settings</span><span class="stamp fixed">fixed</span></header>
+  <div class="case-head"><span class="no">REV <b>009</b></span><span>kotlin · settings</span><span class="stamp">corrected</span></div>
   <h3>The button that lied</h3>
   <dl>
     <dt>Symptom</dt><dd>User believes clipboard history deleted. It wasn't.</dd>
@@ -108,71 +115,78 @@
 
 </div>
 
-<p style="margin-top:1.5rem"><a href="rust.html" style="color:var(--blood)">→ read all 30 case files</a></p>
+<a class="cases-more" href="rust.html">→ read all 30 revision logs</a>
 
-<h2 class="section-rule">wards of the facility</h2>
-<div class="topics">
-  <a class="topic-card" href="rust.html"><span class="n">6 cases</span><h3>rust/ boundaries</h3><p>FFI panics, poisoned locks, JSON composite keys, cross-compile artifacts, lying stubs.</p></a>
-  <a class="topic-card" href="kotlin.html"><span class="n">3 cases</span><h3>kotlin/ settings wiring</h3><p>Dead preferences, toast-only handlers, retrofit signature clashes.</p></a>
-  <a class="topic-card" href="android.html"><span class="n">6 cases</span><h3>android/ share &amp; IPC</h3><p>Kotlin putExtra ArrayList IPC crash, null clipData drops, path traversal, API 33 recursion, image whitelist, PDF object streams.</p></a>
-  <a class="topic-card" href="flutter.html"><span class="n">4 cases</span><h3>flutter/ drift &amp; toolchains</h3><p>Drift column collisions, query builder matchers, compileSdk mismatch, AGP 9 migration.</p></a>
-  <a class="topic-card" href="cross.html"><span class="n">3 cases</span><h3>cross/ coordination</h3><p>Multi-agent worktrees, handoff logs, executor liveness.</p></a>
-  <a class="topic-card" href="ci.html"><span class="n">4 cases</span><h3>ci/ codegen traps</h3><p>Toolchain pins smuggled by codegen, lint gates on generated output, silent CLI arg rejects.</p></a>
-  <a class="topic-card" href="design.html"><span class="n">4 cases</span><h3>design/ anti-default gates</h3><p>Reproduction bans over hue bans, necessary-not-sufficient audits, exemplar drift, medium tells.</p></a>
-  <a class="topic-card" href="learn.html"><span class="n">teach yours</span><h3>/learn - the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
+<div class="centerline"><h2>sheet index</h2></div>
+<div class="index">
+  <a class="ward" href="rust.html"><span class="n">6 lines</span><h3>rust/ boundaries</h3><p>FFI panics, poisoned locks, JSON composite keys, cross-compile artifacts, lying stubs.</p></a>
+  <a class="ward" href="kotlin.html"><span class="n">3 lines</span><h3>kotlin/ settings wiring</h3><p>Dead preferences, toast-only handlers, retrofit signature clashes.</p></a>
+  <a class="ward" href="android.html"><span class="n">6 lines</span><h3>android/ share &amp; IPC</h3><p>Kotlin putExtra ArrayList IPC crash, null clipData drops, path traversal, API 33 recursion, image whitelist, PDF object streams.</p></a>
+  <a class="ward" href="flutter.html"><span class="n">4 lines</span><h3>flutter/ drift &amp; toolchains</h3><p>Drift column collisions, query builder matchers, compileSdk mismatch, AGP 9 migration.</p></a>
+  <a class="ward" href="cross.html"><span class="n">3 lines</span><h3>cross/ coordination</h3><p>Multi-agent worktrees, handoff logs, executor liveness.</p></a>
+  <a class="ward" href="ci.html"><span class="n">4 lines</span><h3>ci/ codegen traps</h3><p>Toolchain pins smuggled by codegen, lint gates on generated output, silent CLI arg rejects.</p></a>
+  <a class="ward" href="design.html"><span class="n">4 lines</span><h3>design/ anti-default gates</h3><p>Reproduction bans over hue bans, necessary-not-sufficient audits, exemplar drift, medium tells.</p></a>
+  <a class="ward" href="learn.html"><span class="n">teach yours</span><h3>/learn — the prompt</h3><p>Paste into your agent after any session. It files new cases itself.</p></a>
 </div>
 
-<section class="forensic-footer">
-  <div>
-    <h4>Ecosystem</h4>
-    <ul>
-      <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
-      <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
-      <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
-      <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
-    </ul>
+<!-- ============ title block + revision log ============ -->
+<div class="titleblock">
+  <div class="tb-top"><span class="t">title block — <b>cookbook</b> · the variance sheet</span>
+    <span class="t">file: <b>index.html</b></span></div>
+  <div class="tb-meta">
+    <span>spec scale <b>1:1</b></span>
+    <span>lines drawn <b>30</b></span>
+    <span>lines closed <b>30</b></span>
+    <span>recidivism <b>0%</b></span>
+    <span>drawn <b>2026</b></span>
   </div>
-  <div>
-    <h4>Author</h4>
-    <ul>
-      <li>Akash Priyadarshi (Patna, Bihar, India)</li>
-      <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
-      <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
-      <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
-      <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
-    </ul>
-  </div>
-  <div>
-    <h4>Social</h4>
-    <ul>
-      <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
-      <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
-      <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
-      <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
-    </ul>
-  </div>
+  <table>
+    <thead><tr><th>rev</th><th>date</th><th>item</th><th>revision</th></tr></thead>
+    <tbody>
+      <tr><td>00</td><td>—</td><td>all</td><td>first line drawn</td></tr>
+      <tr><td>01</td><td>2026</td><td>30</td><td>corrected a preventable mistake</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<section class="linkcols">
+  <div><h4>Ecosystem</h4><ul>
+    <li><a href="https://github.com/AkashPriyadarshii/design-genius">design-genius</a></li>
+    <li><a href="https://github.com/AkashPriyadarshii/akash-design-engineering">akash-design-engineering</a></li>
+    <li><a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android</a></li>
+    <li><a href="https://github.com/AkashPriyadarshii/kharcha">kharcha</a></li>
+  </ul></div>
+  <div><h4>Author</h4><ul>
+    <li class="plain">Akash Priyadarshi (Patna, Bihar, India)</li>
+    <li><a href="https://github.com/AkashPriyadarshii">GitHub</a></li>
+    <li><a href="https://akashpriyadarshi.vercel.app">Portfolio</a></li>
+    <li><a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a">LinkedIn</a></li>
+    <li><a href="https://akashpriyadarshii.github.io/Resume/">Resume</a></li>
+  </ul></div>
+  <div><h4>Social</h4><ul>
+    <li><a href="https://x.com/Akash__ydv001">X / Twitter</a></li>
+    <li><a href="https://www.threads.com/@free_dev2026">Threads</a></li>
+    <li><a href="https://www.instagram.com/akash.priyadarshii/">Instagram</a></li>
+    <li><a href="https://reddit.com/user/DragonfruitWeak2801">Reddit</a></li>
+  </ul></div>
 </section>
 
 </main>
-
-<footer class="toetag">
-  <div class="tag">
-    NAME: cookbook &nbsp;&nbsp; DIED OF: preventable mistake<br>
-    REMAINS AT: <a href="https://github.com/AkashPriyadarshii/cookbook">github.com/AkashPriyadarshii/cookbook</a><br>
-    IF FOUND ALIVE AGAIN: check the file first.
-  </div>
-</footer>
+</div><!-- /sheet -->
 
 <script>
 document.querySelectorAll('.copy').forEach(function(b){
   b.addEventListener('click',function(){
     var t=b.getAttribute('data-copy');
-    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(
-      function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
+    var r=(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject());
+    r.catch(function(){var e=document.createElement('textarea');e.value=t;e.style.position='fixed';e.style.opacity='0';
+      document.body.appendChild(e);e.select();try{document.execCommand('copy')}catch(_){}document.body.removeChild(e)});
+    r.then(function(){b.textContent='copied';setTimeout(function(){b.textContent='copy';},1500);});
   });
 });
 document.querySelectorAll('.redact').forEach(function(r){
   r.addEventListener('click',function(){r.classList.toggle('open');});
+  r.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();r.classList.toggle('open');}});
 });
 </script>
 </body>

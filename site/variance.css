@@ -1,0 +1,204 @@
+:root{
+  --blueprint:#1b2b4e;      /* diazotype print ground */
+  --blueprint-deep:#152240;
+  --blueprint-faint:#24406b;/* raised plate / card ground */
+  --line:#e9edf5;           /* white dimension line */
+  --line-hot:#ffffff;       /* primary white */
+  --line-dim:#c6d1e6;       /* blue-tinted secondary white */
+  --line-faint:rgba(233,237,245,.26); /* grid + hairlines */
+  --correction:#ff6b61;     /* revision red — the correction mark */
+  --approve:#8fe3b4;        /* green stamp: revised & approved */
+  --grid:linear-gradient(0deg,transparent 0 23px,var(--line-faint) 24px 25px),
+         linear-gradient(90deg,transparent 0 23px,var(--line-faint) 24px 25px);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--blueprint);
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(41,74,126,.55), transparent 60%),
+    var(--grid);
+  color:var(--line);
+  font-family:"Barlow",system-ui,sans-serif;
+  font-size:16px;line-height:1.6;
+  padding:0 clamp(1rem,4vw,3rem);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--correction);color:var(--line-hot)}
+:focus-visible{outline:2px solid var(--line-hot);outline-offset:3px}
+code,pre{font-family:"IBM Plex Mono","Courier New",monospace}
+
+/* ---------- crop marks + sheet frame ---------- */
+.sheet{position:relative;max-width:1080px;margin:0 auto;padding:3rem 0 4rem}
+.crop{position:absolute;width:14px;height:14px;opacity:.9}
+.crop.tl{top:0;left:0;border-top:2px solid var(--line);border-left:2px solid var(--line)}
+.crop.tr{top:0;right:0;border-top:2px solid var(--line);border-right:2px solid var(--line)}
+.crop.bl{bottom:14px;left:0;border-bottom:2px solid var(--line);border-left:2px solid var(--line)}
+.crop.br{bottom:14px;right:0;border-bottom:2px solid var(--line);border-right:2px solid var(--line)}
+
+/* ---------- masthead ---------- */
+.masthead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem 2rem;
+  padding:1.2rem 0 1rem;border-bottom:2px solid var(--line)}
+.wordmark{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:clamp(1.5rem,4vw,2.1rem);
+  letter-spacing:.02em;text-transform:uppercase}
+.wordmark .red{color:var(--correction)}
+nav{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.95rem;display:flex;flex-wrap:wrap;gap:.4rem 1.3rem}
+nav a{padding:.15rem .05rem;border-bottom:2px solid transparent}
+nav a[aria-current="page"]{color:var(--line-hot);border-bottom-color:var(--correction)}
+nav a:not([aria-current]):hover{border-bottom-color:var(--line-dim)}
+
+/* ---------- spec strip (was ticker) ---------- */
+.specstrip{display:flex;flex-wrap:wrap;gap:.5rem 2rem;padding:.7rem 0;border-bottom:1px solid var(--line-faint);
+  font-family:"Barlow Condensed",sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;color:var(--line-dim)}
+.specstrip strong{color:var(--correction);font-weight:700}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(3rem,8vw,6rem) 0 2.5rem;border-bottom:2px solid var(--line-faint)}
+.hero h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  line-height:.95;font-size:clamp(2.4rem,7vw,4.6rem);letter-spacing:.01em;max-width:16ch}
+.hero h1 .mark{color:var(--correction)}
+.hero .lede{margin-top:1.3rem;max-width:58ch;font-size:1.05rem;color:var(--line-dim)}
+.hero .lede strong{color:var(--line-hot);font-weight:600}
+
+/* clone block — the sheet's dimension note */
+.plot{margin:2.2rem 0 0;max-width:520px;border:2px solid var(--line)}
+.plot .plt-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.45rem .9rem;border-bottom:1px solid var(--line-faint);background:var(--blueprint-deep);
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:.8rem;color:var(--line-dim)}
+.plot .plt-head b{color:var(--correction)}
+.plot .copy{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--correction);border:1px solid var(--correction);background:none;padding:.15rem .7rem;cursor:pointer;font-size:.8rem}
+.plot .copy:hover{background:var(--correction);color:var(--line-hot)}
+.plot pre{padding:.9rem;font-size:.85rem;white-space:pre;overflow-x:auto;color:var(--line-hot)}
+.plot pre .prompt{color:var(--line-dim)}
+
+/* centerline + section word */
+.centerline{display:flex;align-items:center;gap:1rem;margin:3.5rem 0 1.75rem}
+.centerline::before,.centerline::after{content:"";flex:1;border-top:1px dashed var(--line-faint)}
+.centerline h2{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;font-size:1.15rem;color:var(--line-hot)}
+.centerline .cnt{color:var(--correction);font-weight:700}
+
+/* ---------- revisions feed (cases) ---------- */
+.feed{display:grid;gap:1.4rem}
+.case{position:relative;border:2px solid var(--line);background:var(--blueprint-faint);
+  padding-left:1.1rem}
+.case::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--correction)}
+.case .case-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem 1rem;align-items:center;
+  padding:.6rem .9rem .5rem;border-bottom:1px dashed var(--line-faint);
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.13em;font-size:.82rem;color:var(--line-dim)}
+.case .case-head .no{color:var(--line-hot);font-weight:700}
+.case .case-head .no b{color:var(--correction)}
+.case h3{font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;
+  font-size:1.3rem;padding:.75rem .9rem .2rem;color:var(--line-hot)}
+.case dl{padding:.2rem .9rem 1rem;font-size:.88rem}
+.case dt{float:left;clear:left;width:5.6rem;padding:.15rem 0;font-family:"Barlow Condensed",sans-serif;
+  text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;color:var(--line-dim)}
+.case dd{margin-left:6rem;color:var(--line)}
+
+/* stamp */
+.stamp{display:inline-block;border:2px solid var(--approve);color:var(--approve);padding:.05rem .55rem;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:.78rem}
+
+/* redaction — lift the revision cloud */
+.redact{position:relative;display:inline-block;cursor:pointer;color:transparent;user-select:none;
+  padding:0 .35em;background:var(--correction);transition:background .25s var(--ease-out)}
+.redact::after{content:"[remove cloud]";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:.68rem;color:var(--line-hot)}
+.redact.open,.redact:active{background:transparent;color:var(--correction)}
+.redact.open::after,.redact:active::after{content:none}
+
+.cases-more{display:inline-block;margin:1.2rem 0 0;color:var(--correction);font-weight:600;
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.12em}
+
+/* ---------- sheet index (topics) ---------- */
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem}
+.ward{position:relative;border:1px solid var(--line-faint);background:var(--blueprint-deep);padding:1rem 1.1rem;
+  transition:border-color .25s var(--ease-out),transform .25s var(--ease-out)}
+.ward:hover{border-color:var(--correction);transform:translateY(-2px)}
+.ward .n{font-family:"Barlow Condensed",sans-serif;color:var(--correction);text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;font-weight:700}
+.ward h3{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  font-size:1.15rem;margin:.25rem 0 .3rem;color:var(--line-hot)}
+.ward p{font-size:.82rem;color:var(--line-dim)}
+
+/* ---------- title block + revision log ---------- */
+.titleblock{margin-top:4rem;border:2px solid var(--line)}
+.titleblock .tb-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem;
+  padding:.6rem .9rem;border-bottom:2px solid var(--line)}
+.titleblock .tb-top .t{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:1rem}
+.titleblock .tb-top .t b{color:var(--correction)}
+.titleblock .tb-meta{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;padding:.5rem .9rem;border-bottom:1px solid var(--line-faint);
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;color:var(--line-dim)}
+.titleblock .tb-meta b{color:var(--line-hot)}
+.titleblock table{width:100%;border-collapse:collapse;font-size:.82rem}
+.titleblock th, .titleblock td{text-align:left;padding:.45rem .9rem;border-bottom:1px solid var(--line-faint);
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.titleblock th{color:var(--line-dim);font-weight:600;background:var(--blueprint-deep)}
+.titleblock td{color:var(--line);font-weight:600}
+.titleblock tr:last-child td{border-bottom:none}
+
+/* mandatory link columns */
+.linkcols{margin-top:3rem;padding-top:1.5rem;border-top:1px dashed var(--line-faint);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.8rem;font-size:.85rem}
+.linkcols h4{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  font-size:.9rem;color:var(--line-hot);margin-bottom:.55rem;border-bottom:1px solid var(--line-faint);padding-bottom:.25rem}
+.linkcols ul{list-style:none}
+.linkcols li{margin:.15rem 0}
+.linkcols a:hover{color:var(--correction);text-decoration:underline;text-underline-offset:3px}
+.linkcols .plain{color:var(--line-dim)}
+
+@media (max-width:560px){
+  .case dd{margin-left:0}
+  .case dt{float:none;width:auto;clear:none;display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  .ward,.ward:hover{transition:none}
+  .redact{transition:none}
+}
+@media print{nav,.copy,.specstrip{display:none}body{background:var(--blueprint-deep)}}
+
+/* ========== ward pages: morgue classes re-fitted to the variance sheet ========== */
+:root{
+  --blood:var(--correction);      /* old accent alias -> revision red */
+  --hairline:var(--line-faint);   /* old border alias -> faint line */
+}
+
+/* .ticker -> spec strip */
+.ticker{display:flex;flex-wrap:wrap;gap:.5rem 2rem;padding:.7rem 0;border-bottom:1px solid var(--line-faint);
+  font-family:"Barlow Condensed",sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;color:var(--line-dim)}
+.ticker strong{color:var(--correction);font-weight:700}
+.ticker a{color:var(--line-dim)}
+.ticker a:hover{color:var(--correction)}
+
+/* .section-rule -> centerline */
+.section-rule{display:flex;align-items:center;gap:1rem;margin:3.5rem 0 1.75rem;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:1.15rem;color:var(--line-hot)}
+.section-rule::before,.section-rule::after{content:"";flex:1;border-top:1px dashed var(--line-faint)}
+.section-rule .count{color:var(--correction);font-weight:700}
+
+/* ward .case header -> blueprint case-head */
+.case > header{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;
+  padding:.55rem .95rem;border-bottom:1px dashed var(--line-faint);background:var(--blueprint-deep);
+  font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.13em;font-size:.82rem;color:var(--line-dim)}
+.case > header .no{color:var(--line-hot);font-weight:700}
+.case header .no{}
+.case pre{border-top:1px dashed var(--line-faint)}
+
+/* .toetag -> revision strip */
+footer.toetag{margin:3rem 0 2.5rem;display:flex;justify-content:center}
+.tag{border:2px solid var(--line);background:var(--blueprint-deep);padding:.9rem 1.6rem;text-align:left;font-size:.8rem;line-height:1.7}
+.tag a{color:var(--correction)}
+
+/* .forensic-footer -> link columns */
+.forensic-footer{margin-top:3rem;padding-top:1.5rem;border-top:1px dashed var(--line-faint);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.8rem;font-size:.85rem}
+.forensic-footer h4{font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  font-size:.9rem;color:var(--line-hot);margin-bottom:.55rem;border-bottom:1px solid var(--line-faint);padding-bottom:.25rem}
+.forensic-footer ul{list-style:none}
+.forensic-footer li{margin:.15rem 0}
+.forensic-footer a{color:var(--line)}
+.forensic-footer a:hover{color:var(--correction);text-decoration:underline;text-underline-offset:3px}
+
+@media print{.ticker{display:none}}
