@@ -23,6 +23,7 @@ or reference it from your repo's AGENTS.md / CLAUDE.md / .cursorrules.
 | [Android share & IPC](android/SKILL.md) | 4 | Kotlin putExtra ArrayList serialization crash · ACTION_SEND_MULTIPLE null clipData drops · DISPLAY_NAME path traversal · EXTRA_EXCLUDE_COMPONENTS API <33 recursion |
 | [Flutter & Drift toolchain](flutter/SKILL.md) | 4 | Drift column name collisions · query builder matcher collisions · legacy plugin compileSdk mismatch · AGP 9 Built-in Kotlin breakage |
 | [Multi-agent git coordination](cross/SKILL.md) | 2 | Parallel agents on one checkout stealing each other's uncommitted edits · lost handoff context between sessions |
+| [Windows desktop daemons](windows/SKILL.md) | 3 | `Shell_NotifyIconW` 0x80004005 E_FAIL on console processes · silent tray exit without ApplicationContext · Task Manager Startup tab registry split |
 | [CI codegen traps](ci/SKILL.md) | 4 | Codegen output pinning the builder's toolchain · lint gates that fail on generated code · codegen CLI arg traps · asserts that cat nothing on failure |
 | [Anti-default design gates](design/SKILL.md) | 4 | Banning a hue family instead of the whole reproduction · one gate passing scoped as the full audit · blessed exemplar re-converging · web tells judged on print surfaces |
 

@@ -13,6 +13,9 @@ Format: `YYYY-MM-DD | <topic> | accept|reject | one-line lesson | source`
 
 ## Entries
 
+- 2026-09-14 | windows | accept | Shell_NotifyIconW returns 0x80004005 E_FAIL in console process; requires explicit message pump on STA thread | session (rustyram)
+- 2026-09-14 | windows | accept | NotifyIcon exits silently in hidden process without ApplicationContext; anchor message loop to context | session (rustyram)
+- 2026-09-14 | windows | accept | Task Manager Startup apps tab ignores HKCU Run without StartupApproved; write companion binary mask | session (rustyram)
 - 2026-09-06 | android | accept | intent.putExtra(String, ArrayList<Uri>) resolves to Serializable in Kotlin; call putParcelableArrayListExtra to prevent Binder IPC crash | session (exifdrop share trampoline)
 - 2026-09-06 | android | accept | ACTION_SEND_MULTIPLE with null clipData drops batch if reading single Uri extra; branch on action for parcelable array list | session (exifdrop share trampoline)
 - 2026-09-06 | android | accept | untrusted OpenableColumns.DISPLAY_NAME escapes cache dir via ../; sanitize to bare alphanumeric stem | session (exifdrop share trampoline)
